@@ -2,8 +2,6 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Query {
-    "Get tracks array for homepage grid"
-    tracksForHome: [Track!]!
     allUsers(name: String): [User!]
     allRepos: [Repo!]
     getReposByOwner(id: ID!): [Repo!]!
