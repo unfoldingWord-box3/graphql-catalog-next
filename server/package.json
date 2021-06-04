@@ -8,5 +8,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "apollo-datasource-rest": "^0.14.0",
+    "apollo-server": "^2.25.0",
+    "camelcase-keys": "^6.2.2",
+    "datasource-sql": "^1.4.1",
+    "graphql": "^15.5.0",
+    "mysql": "^2.18.1"
+  }
 }
