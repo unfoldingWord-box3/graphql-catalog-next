@@ -189,6 +189,18 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
+  async searchCatalogs(searchWord) {
+    const qry = this.knex
+      .select('*')
+      .from('door43_metadata')
+      .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
+      .where(this.knex.raw('CONCAT(??, ??, ??)', ["lower_name", "owner_name", "description"]),
+        "LIKE", `%${searchWord}%`)
+      .cache(MINUTE)
+      let res = await this.queryDB(qry)
+      return camelcaseKeys(res, { deep: true })
+  }
+
 }
 
 module.exports.CatalogNext = CatalogNext

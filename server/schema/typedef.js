@@ -118,6 +118,7 @@ let typeDefs = gql`
 		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
 		catalogsByRepo(repoName: String): [Catalog]
 		catalogsByOwner(userName: String): [Catalog]
+		catalogSearch(searchWord: String): [Catalog]
 	}
 `;
 

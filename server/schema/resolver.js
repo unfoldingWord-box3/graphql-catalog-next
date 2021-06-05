@@ -87,6 +87,9 @@ const resolvers = {
 		},
 		catalogsByOwner(_, { userName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByOwner(userName)
+		},
+		catalogSearch(_, { searchWord }, { dataSources }) {
+			return dataSources.catalogNext.searchCatalogs(searchWord)
 		}
 
 	}
