@@ -4,12 +4,12 @@ const typeDefs = gql`
   type Query {
     allUsers(name: String): [User!]
     allRepos: [Repo!]
-    getReposByOwner(id: ID!): [Repo!]!
   }
 
   type User {
     id: ID!
     name: String
+    repos: [Repo!]!
   }
 
   type Repo {
@@ -17,6 +17,8 @@ const typeDefs = gql`
     owner: User!
     name: String!
     description: String
+    avatar_url: String
+    html_url: String
   }
 `
 
