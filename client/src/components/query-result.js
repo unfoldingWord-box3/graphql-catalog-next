@@ -17,11 +17,15 @@ const QueryResult = ({ loading, error, data, children }) => {
       </SpinnerContainer>
     );
   }
+  
   if (!data) {
     return <p>Nothing to show...</p>;
   }
-  if (data) {
+
+  if (data && children) {
     return children;
+  } else {
+    return <p>Nothing to show...</p>;
   }
 };
 

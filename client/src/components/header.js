@@ -65,14 +65,6 @@ const HomeButton = styled.div({
   },
 });
 
-const LogoContainer = styled.div({ display: 'flex', alignSelf: 'center' });
-
-const Logo = styled.img({
-  height: 60,
-  width: 60,
-  marginRight: 8,
-});
-
 const Title = styled.div({
   display: 'flex',
   flexDirection: 'column',

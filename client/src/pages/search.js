@@ -1,55 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { Layout } from '../components';
-import { useLazyQuery, gql, ApolloProvider } from '@apollo/client';
-import QueryResult from '../components/query-result'
 
+const Search = ({ getResults, data, getSelected }) => {
+  const [items, setItems] = useState([])
 
-/**
- * Tracks Page is the Catstronauts home page.
- * We display a grid of tracks fetched with useQuery with the TRACKS query
- */
-const Search = ({getResults, loading, error, data}) => {
+  useEffect(() => {
+    if (data) {
+      setItems(data[Object.keys(data)[0]])
+    }
+  }, [data])
 
-    
-    //if (loading) return <p>Loading ...</p>;
-        console.log(data);
-        let items = []
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log({ string, results })
+    getResults({ variables: { key: string } })
+  }
 
-        const handleOnSearch = (string, results) => {
-        // onSearch will have as the first callback parameter
-        // the string searched and for the second the results.
-            getResults(  { variables: { key: string } } )
-            console.log(string, results)
-        }
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result)
+  }
 
-        const handleOnHover = (result) => {
-        // the item hovered
-        console.log(result)
-        }
+  const handleOnSelect = (item) => {
+    // the item selected
+    console.log('selected', {item})
+    if (item) {
+     getSelected(item)
+    }
+  }
 
-        const handleOnSelect = (item) => {
-        // the item selected
-        console.log(item)
-        }
+  const handleOnFocus = () => {
+    console.log('Focused')
+  }
 
-        const handleOnFocus = () => {
-        console.log('Focused')
-        }
   return (
-        
-        <div style={{ width: 400 }}>
-            
-          <ReactSearchAutocomplete
-            items={data? data[Object.keys(data)[0]] : items}
-            onSearch={handleOnSearch}
-            onHover={handleOnHover}
-            onSelect={handleOnSelect}
-            onFocus={handleOnFocus}
-            autoFocus
-          />
-        </div>
-
+    <div style={{ width: '100%', zIndex: 3 }}>
+      <ReactSearchAutocomplete
+        autoFocus
+        items={items}
+        onSearch={handleOnSearch}
+        onHover={handleOnHover}
+        onSelect={handleOnSelect}
+        onFocus={handleOnFocus}
+        inputDebounce={0}
+      />
+    </div>
   );
 };
 

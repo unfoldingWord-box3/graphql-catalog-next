@@ -1,31 +1,21 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { colors, mq } from '../styles';
-import { humanReadableTimeFromSeconds } from '../utils/helpers';
 
-/**
- * Track Card component renders basic info in a card format
- * for each track populating the tracks grid homepage.
- */
-const TrackCard = ({ track }) => {
-  const { title, thumbnail, author, length, modulesCount } = track;
+const RepoCard = ({ repo }) => {
+  const { name, description, avatar_url, html_url } = repo;
 
   return (
-    <CardContainer>
+    <CardContainer href={html_url} target="_blank">
       <CardContent>
-        <CardImageContainer>
-          <CardImage src={thumbnail} alt={title} />
-        </CardImageContainer>
+        {avatar_url && <CardImageContainer>
+          <CardImage src={avatar_url} alt={name} />
+        </CardImageContainer> }
         <CardBody>
-          <CardTitle>{title || ''}</CardTitle>
+          <CardTitle>{name || ''}</CardTitle>
           <CardFooter>
-            <AuthorImage src={author.photo} />
             <AuthorAndTrack>
-              <AuthorName>{author.name}</AuthorName>
-              <TrackLength>
-                {modulesCount} modules -{' '}
-                {humanReadableTimeFromSeconds(length)}
-              </TrackLength>
+              <AuthorName>{description}</AuthorName>
             </AuthorAndTrack>
           </CardFooter>
         </CardBody>
@@ -34,10 +24,10 @@ const TrackCard = ({ track }) => {
   );
 };
 
-export default TrackCard;
+export default RepoCard;
 
 /** Track Card styled components */
-const CardContainer = styled.div({
+const CardContainer = styled.a({
   borderRadius: 6,
   color: colors.text,
   backgroundSize: 'cover',
@@ -56,7 +46,7 @@ const CardContainer = styled.div({
   [mq[2]]: {
     width: '31%',
   },
-  height: 380,
+  height: 500,
   margin: 10,
   overflow: 'hidden',
   position: 'relative',
@@ -64,6 +54,7 @@ const CardContainer = styled.div({
     backgroundColor: colors.pink.lightest,
   },
   cursor: 'pointer',
+  zIndex: 1,
 });
 
 const CardContent = styled.div({
@@ -83,7 +74,6 @@ const CardTitle = styled.h3({
 });
 
 const CardImageContainer = styled.div({
-  height: 220,
   position: 'relative',
   '::after': {
     content: '""',
@@ -92,15 +82,12 @@ const CardImageContainer = styled.div({
     bottom: 0,
     left: 0,
     right: 0,
-    background: 'rgba(250,0,150,0.20)',
   },
 });
 
 const CardImage = styled.img({
-  objectFit: 'cover',
   width: '100%',
   height: '100%',
-  filter: 'grayscale(60%)',
 });
 
 const CardBody = styled.div({
@@ -136,6 +123,3 @@ const AuthorName = styled.div({
   fontSize: '1.1em',
 });
 
-const TrackLength = styled.div({
-  fontSize: '0.8em',
-});
