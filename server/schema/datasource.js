@@ -69,6 +69,63 @@ class CatalogNext extends SQLDataSource {
 
   }
 
+  async getOrgUsers() {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .where({"type":1})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+
+  }
+
+  async getOrgTeams(orgUserId) {
+    const qry = this.knex
+      .select('*')
+      .from('team')
+      .where({"org_id":orgUserId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getOrgMembers(orgUserId) {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .join('org_user', 'user.id', "=", "org_user.uid")
+      .where({"org_user.org_id":orgUserId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+
+  }
+
+  async getTeamMembers(teamId) {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .join('team_user', 'user.id', "=", "team_user.uid")
+      .where({"team_user.team_id":teamId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+
+  }
+
+  async getTeamRepos(teamId) {
+    const qry = this.knex
+      .select('*')
+      .from('repository')
+      .join('team_repo', 'repository.id', "=", "team_repo.repo_id")
+      .where({"team_repo.team_id":teamId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+
+  }
+
 }
 
 module.exports.CatalogNext = CatalogNext

@@ -1,11 +1,6 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-	type Organization{
-		id: Int
-		name: String
-	}
-
 	type Languages {
 	   language: String
 	 }
@@ -17,6 +12,7 @@ const typeDefs = gql`
 	type User {
 	   id: ID!
 	   login: String!
+	   name: String
 	   fullName: String!
 	   email: String!
 	   avatarUrl: String
@@ -24,9 +20,6 @@ const typeDefs = gql`
 	   isAdmin: Boolean
 	   lastLogin: String
 	   created: String
-	   # repoLanguages: [Languages]
-	   # repoSubjects: [Subjects]
-	   username: String!
 	   repos: [Repo]
 	 }
 
@@ -69,6 +62,32 @@ const typeDefs = gql`
 	   checkingLevel: String
 	 }
 
+	type Organization {
+	   id: ID!
+	   login: String!
+	   name: String!
+	   website: String
+	   location: String
+	   email: String
+	   avatarUrl: String
+	   language: String
+	   isAdmin: Boolean
+	   lastLogin: String
+	   created: String
+	   teams: [Team]
+	   members: [User]
+	 }
+
+	 type Team {
+	 	id: ID!
+	 	name: String
+	 	description: String
+	 	organization: Organization
+	 	teamRepos: [Repo]
+	 	teamType: String
+	 	members: [User]
+
+	 }
 
 	type Query {
 		allOrgs: [Organization]

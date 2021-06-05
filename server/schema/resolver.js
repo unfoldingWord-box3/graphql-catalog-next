@@ -17,8 +17,28 @@ const resolvers = {
 		}
 	},
 
+	Organization: {
+		teams(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getOrgTeams(parent.id)
+		},
+		members(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getOrgMembers(parent.id)
+		}
+	},
+
+	Team: {
+		teamRepos(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getTeamRepos(parent.id)
+		},
+		members(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getTeamMembers(parent.id)
+		}
+	},
+
 	Query: {
-		allOrgs: () => dummyOrgs,
+		allOrgs(_, args, { dataSources }) {
+			return dataSources.catalogNext.getOrgUsers()
+		},
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
 		},
