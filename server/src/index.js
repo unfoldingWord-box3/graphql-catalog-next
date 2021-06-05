@@ -94,7 +94,7 @@ let getAllRepos = () => {
 const resolvers = {
   Query: {
     allUsers: (parent, args, context, info) => {
-      const result = args.name ? dummyUsers.filter(user => user.name.toLowerCase().includes(args.name)) : dummyUsers
+      const result = args.name ? dummyUsers.filter(user => user.name.toLowerCase().includes(args.name.toLowerCase())) : dummyUsers
 
       return result
     },
