@@ -31,7 +31,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getReposByNameAndOwner(repoName, userName) {
@@ -43,7 +42,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getReposByOwner(ownerId) {
@@ -51,6 +49,17 @@ class CatalogNext extends SQLDataSource {
       .select('*')
       .from('repository')
       .where({"owner_id":ownerId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getRepoById(repoId) {
+    const qry = this.knex
+      .select('*')
+      .from('repository')
+      .where({"id":repoId})
+      .first()
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
@@ -66,7 +75,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getOrgUsers() {
@@ -77,7 +85,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getOrgTeams(orgUserId) {
@@ -99,7 +106,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getTeamMembers(teamId) {
@@ -111,7 +117,6 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
-
   }
 
   async getTeamRepos(teamId) {
@@ -123,7 +128,65 @@ class CatalogNext extends SQLDataSource {
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
+  }
 
+  async getOrgsByname(name) {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .where({"type":1, "name": name})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getOneCatalog(repoName, userName, branchOrTag) {
+    const qry = this.knex
+    .select('*')
+    .from('door43_metadata')
+    .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
+    .join('user', 'repository.owner_id', '=', 'user.id')
+    .where({'user.lower_name': userName.toLowerCase, 
+            'repository.lower_name': repoName.toLowerCase(),
+            'door43_metadata.branch_or_tag': branchOrTag.toLowerCase()})
+    .first()
+    .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getCatalogsByRepo(repoName) {
+    const qry = this.knex
+    .select('*')
+    .from('door43_metadata')
+    .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
+    .where({'repository.lower_name': repoName.toLowerCase()})
+    .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getCatalogsByOwner(userName) {
+    const qry = this.knex
+    .select('*')
+    .from('door43_metadata')
+    .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
+    .join('user', 'repository.owner_id', '=', 'user.id')
+    .where({'user.lower_name': userName.toLowerCase()})
+    .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getReleaseById(id){
+    const qry = this.knex
+      .select('*')
+      .from('release')
+      .where({"id":id})
+      .first()
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
   }
 
 }

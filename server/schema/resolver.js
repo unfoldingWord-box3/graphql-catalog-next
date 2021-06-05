@@ -1,10 +1,20 @@
+const { GraphQLScalarType } = require('graphql');
 
 dummyOrgs = [
 	{"id": 1, "name": "BSC"},
 	{"id": 2, "name": "UnfoldingWord"}
 ]
+const GraphQlTypelessData = new GraphQLScalarType({
+	name: "TypelessData",
+	serialize(value) {
+		result = JSON.parse(value)
+		return result
+	}
+});
 
 const resolvers = {
+    TypelessData: GraphQlTypelessData,
+
 	User: {
 		repos(parent, args, {dataSources}){
 			return dataSources.catalogNext.getReposByOwner(parent.id)
@@ -35,9 +45,30 @@ const resolvers = {
 		}
 	},
 
+	Catalog: {
+		repo(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getRepoById(parent.repoId)
+		},
+		release(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getReleaseById(parent.releaseId)
+		}
+	},
+
+	Release: {
+		publisher(parent, args, { dataSources}) {
+			return dataSources.catalogNext.getUserById(parent.publisherId)
+		},
+		originalAuthor(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getUserById(parent.originalAuthorId)
+		}
+	},
+
 	Query: {
 		allOrgs(_, args, { dataSources }) {
 			return dataSources.catalogNext.getOrgUsers()
+		},
+		orgsByName(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.getOrgsByName()
 		},
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
@@ -47,6 +78,15 @@ const resolvers = {
 		},
 		reposByName(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getReposByName(name)
+		},
+		catalog(_, { repoName, userName, branchOrTag }, { dataSources }) {
+			return dataSources.catalogNext.getOneCatalog(repoName, userName, branchOrTag)
+		},
+		catalogsByRepo(_, { repoName }, { dataSources }) {
+			return dataSources.catalogNext.getCatalogsByRepo(repoName)
+		},
+		catalogsByOwner(_, { userName }, { dataSources }) {
+			return dataSources.catalogNext.getCatalogsByOwner(userName)
 		}
 
 	}

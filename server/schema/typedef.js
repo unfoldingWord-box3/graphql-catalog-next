@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server');
 
-const typeDefs = gql`
-	type Languages {
+let typeDefs = gql`
+	type ComputerLanguage {
 	   language: String
 	 }
 	 
@@ -29,7 +29,7 @@ const typeDefs = gql`
 	   name: String!
 	   fullName: String!
 	   description: String!
-	   repoLanguages: [Languages]
+	   repoLanguages: [ComputerLanguage]
 	   repoSubjects: [Subjects]
 	   empty: Boolean
 	   private: Boolean
@@ -89,11 +89,35 @@ const typeDefs = gql`
 
 	 }
 
+	 scalar TypelessData
+
+	 type Catalog {
+	 	metadataVersion: String
+	 	metadata: TypelessData!
+	 	repo: Repo!
+	 	release: Release
+	 	stage: Int
+	 	branchOrTag: String!
+	 	releaseDateUnix: String
+	 }
+
+	 type Release {
+	 	title: String
+	 	target: String
+	 	note: String
+	 	publisher: User
+	 	originalAuthor: User
+	 }
+
 	type Query {
 		allOrgs: [Organization]
+		orgsByName: [Organization]
 		user(name: String): User
 		repo(repoName: String, userName: String): Repo
 		reposByName(name: String): [Repo]
+		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
+		catalogsByRepo(repoName: String): [Catalog]
+		catalogsByOwner(userName: String): [Catalog]
 	}
 `;
 
