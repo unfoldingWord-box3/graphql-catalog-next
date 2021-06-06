@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
-const Search = ({ getResults, data, getSelected }) => {
+const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
   const [items, setItems] = useState([])
+
+  const fuseOptions = {
+
+    keys: [
+      searchKey
+    ],
+    
+  }
 
   useEffect(() => {
     if (data) {
@@ -13,7 +21,7 @@ const Search = ({ getResults, data, getSelected }) => {
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
-    console.log({ string, results })
+    console.log({ string, results, items })
     getResults({ variables: { key: string } })
   }
 
@@ -44,6 +52,8 @@ const Search = ({ getResults, data, getSelected }) => {
         onSelect={handleOnSelect}
         onFocus={handleOnFocus}
         inputDebounce={0}
+        fuseOptions={fuseOptions}
+        resultStringKeyName={searchKey}
       />
     </div>
   );

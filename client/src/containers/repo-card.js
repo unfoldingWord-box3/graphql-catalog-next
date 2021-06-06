@@ -3,13 +3,13 @@ import styled from '@emotion/styled';
 import { colors, mq } from '../styles';
 
 const RepoCard = ({ repo }) => {
-  const { name, description, avatar_url, html_url } = repo;
+  const { name, description, avatarUrl, htmlUrl } = repo;
 
   return (
-    <CardContainer href={html_url} target="_blank">
+    <CardContainer href={htmlUrl} target="_blank">
       <CardContent>
-        {avatar_url && <CardImageContainer>
-          <CardImage src={avatar_url} alt={name} />
+        {avatarUrl && <CardImageContainer>
+          <CardImage src={avatarUrl} alt={name} />
         </CardImageContainer> }
         <CardBody>
           <CardTitle>{name || ''}</CardTitle>
@@ -29,14 +29,13 @@ export default RepoCard;
 /** Track Card styled components */
 const CardContainer = styled.a({
   borderRadius: 6,
+  textDecoration: 'none',
   color: colors.text,
   backgroundSize: 'cover',
   backgroundColor: 'white',
   boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.15)',
   backgroundPosition: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
+  padding:10,
   [mq[0]]: {
     width: '90%',
   },
@@ -46,31 +45,30 @@ const CardContainer = styled.a({
   [mq[2]]: {
     width: '31%',
   },
-  height: 500,
+
   margin: 10,
   overflow: 'hidden',
   position: 'relative',
   ':hover': {
-    backgroundColor: colors.pink.lightest,
+    backgroundColor: colors.blue.lightest,
   },
   cursor: 'pointer',
   zIndex: 1,
 });
 
 const CardContent = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-around',
-  height: '100%',
+  display: 'grid',
+  gridTemplateColumns: '1fr 2fr',
 });
 
 const CardTitle = styled.h3({
-  textAlign: 'center',
+  textAlign: 'left',
   fontSize: '1.4em',
   lineHeight: '1em',
+  marginBottom:15,
   fontWeight: 700,
   color: colors.text,
-  flex: 1,
+  flex: 0,
 });
 
 const CardImageContainer = styled.div({
@@ -96,7 +94,7 @@ const CardBody = styled.div({
   display: 'flex',
   color: colors.textSecondary,
   flexDirection: 'column',
-  justifyContent: 'space-around',
+  justifyContent: 'start',
 });
 
 const CardFooter = styled.div({

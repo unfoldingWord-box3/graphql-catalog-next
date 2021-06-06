@@ -24,12 +24,12 @@ const FooterContainer = styled.div({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  color: colors.pink.base,
+  color: colors.blue.base,
   marginTop: 30,
   height: 200,
   padding: 20,
   backgroundColor: 'white',
-  borderTop: `solid 1px ${colors.pink.light}`,
+  borderTop: `solid 1px ${colors.blue.light}`,
 });
 
 const LogoContainer = styled.div({

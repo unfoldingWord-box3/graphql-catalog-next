@@ -3,6 +3,7 @@ import { Layout, QueryResult } from '../components';
 import Search from './search';
 import { useLazyQuery, gql } from '@apollo/client';
 import RepoCard from '../containers/repo-card';
+import UserCard from '../containers/user-card';
 import styled from '@emotion/styled';
 
 const GridContainer = styled.div(() => ({
@@ -20,13 +21,14 @@ const USERS = gql`
   query getUsers($key: String!) {
     allUsers(name: $key) {
       id
-      name
+      fullName
+      login
       repos {
         id
         name
         description
-        avatar_url
-        html_url
+        avatarUrl
+        htmlUrl
       }
     }
   }
@@ -34,27 +36,32 @@ const USERS = gql`
 
 const Users = () => {
   const [repos, setRepos] = useState(null)
+  const [user, setUser] = useState(null)
   const [getUsers, { loading, error, data }] = useLazyQuery(USERS)
-
+  
   console.log({ loading, error, data })
 
   return (
     <Layout>
       <Search 
         getResults={getUsers}
+        searchKey="login"
         data={data}
-        getSelected={({ repos }) => setRepos(repos)}
+        getSelected={(user) => {
+          console.log("user", user)
+          setRepos(user.repos)
+          setUser(user)
+        }}
       />
+
+      {user ? <UserCard user={user}></UserCard> : null}
+
       <GridContainer>
-        <QueryResult
-          loading={loading}
-          error={error}
-          data={repos}
-        >
+
           {repos && repos.length ? repos.map((repo) => (
-          <RepoCard key={repo.id} repo={repo}/>
-        )) : null}
-        </QueryResult>
+              <RepoCard key={repo.id} repo={repo}/>
+            )) : "No matching repositories found."}
+
       </GridContainer>
     </Layout>
   );

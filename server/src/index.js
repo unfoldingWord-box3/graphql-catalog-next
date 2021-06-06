@@ -4,77 +4,84 @@ const typeDefs = require('./schema')
 let dummyUsers = [
   {
    "id": 1,
-   "name": "Abel",
+   "login": "abelper8",
+   "fullName" : "Abel Pérez",
    "repos": [
     {
       "id": 1,
       "name": "en_ta",
-      "owner_id": 1,
+      "ownerId": 1,
       "description": "unfoldingWord® translationAcademy",
-      "avatar_url": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
-      "html_url": "https://git.door43.org/unfoldingWord/en_ta",
+      "avatarUrl": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
+      "htmlUrl": "https://git.door43.org/unfoldingWord/en_ta",
     },
     {
       "id": 2,
       "name": "en_tn",
-      "owner_id": 1,
+      "ownerId": 1,
       "description": "unfoldingWord® translationNotes",
-      "avatar_url": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
-      "html_url": "https://git.door43.org/unfoldingWord/en_tn",
+      "avatarUrl": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
+      "htmlUrl": "https://git.door43.org/unfoldingWord/en_tn",
     },
    ]
   },
   {
     "id": 2,
-    "name": "Manny",
+    "login": "mannycolon",
+    "fullName" : "Manuel Colon",
     "repos": []
   },
   {
     "id": 3,
-    "name": "Kavitha",
+    "login": "kavitha",
+    "fullName": "Kavitha",
     "repos": []
   },
   {
     "id": 4,
-    "name": "Alek",
-    "repos": []
-  },
-  {
-    "id": 12,
-    "name": "Eliah",
+    "login": "j_aleksandrovich",
+    "fullName": "Jakov Aleksandrovich",
     "repos": [
       {
         "id": 3,
         "name": "en_tq",
-        "owner_id": 12,
+        "ownerId": 12,
         "description": "unfoldingWord® translationQuestions",
-        "avatar_url": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
-        "html_url": "https://git.door43.org/unfoldingWord/en_tq",
+        "avatarUrl": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
+        "htmlUrl": "https://git.door43.org/unfoldingWord/en_tq",
 
       },
       {
         "id": 4,
         "name": "en_tw",
-        "owner_id": 12,
+        "ownerId": 12,
         "description": "unfoldingWord® translationWords",
-        "avatar_url": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
-        "html_url": "https://git.door43.org/unfoldingWord/en_tw",
+        "avatarUrl": "https://git.door43.org/repo-avatars/52426-7add887465de88f0d9d7051b426689fc",
+        "htmlUrl": "https://git.door43.org/unfoldingWord/en_tw",
 
       },
       {
         "id": 5,
         "name": "en_obs",
-        "owner_id": 12,
+        "ownerId": 12,
         "description": "unfoldingWord® Open Bible Stories",
-        "avatar_url": "https://filedn.com/lD0GfuMvTstXgqaJfpLL87S/assets/uw-icons/logo-obs-256.png",
-        "html_url": "https://git.door43.org/unfoldingWord/en_obs",
+        "avatarUrl": "https://filedn.com/lD0GfuMvTstXgqaJfpLL87S/assets/uw-icons/logo-obs-256.png",
+        "htmlUrl": "https://git.door43.org/unfoldingWord/en_obs",
 
       }
     ]
   },
   {
+    "id": 12,
+    "login": "eli20",
+    "fullName": "Eli Doe",
+    "repos": []
+    
+  },
+  {
     "id": 5,
-    "name": "Mike",
+    "login": "mike056",
+    "fullName": "Mike P.",
     "repos": []
   }
 ]
@@ -94,11 +101,9 @@ let getAllRepos = () => {
 const resolvers = {
   Query: {
     allUsers: (parent, args, context, info) => {
-      const result = args.name ? dummyUsers.filter(user => user.name.toLowerCase().includes(args.name.toLowerCase())) : dummyUsers
-
+      const result = args.name ? dummyUsers.filter(user => user.login.toLowerCase().includes(args.name.toLowerCase())) : dummyUsers
       return result
-    },
-    allRepos: () => getAllRepos(),
+    }
   }
 }
 
