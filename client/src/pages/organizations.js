@@ -19,11 +19,12 @@ const GridContainer = styled.div(() => ({
 
 /** TRACKS query to retrieve all tracks */
 const ORGS = gql`
-  query getUsers($key: String!) {
-    orgSearch(name: $key) {
+  query getOrgs($key: String!) {
+    userSearch(name: $key) {
       id
       fullName
-      login
+      name
+      email
       repos {
         id
         name
@@ -37,9 +38,11 @@ const ORGS = gql`
 
 const Organizations = () => {
   const [repos, setRepos] = useState(null)
-  const [user, setUser] = useState(null)
-  const [getUsers, { error, data }] = useLazyQuery(ORGS, {
-    onCompleted: (data) => { console.log("resultado", data)}
+  const [org, setOrg] = useState(null)
+  const [getOrgs, { error, data }] = useLazyQuery(ORGS, {
+    onCompleted: (data) => { 
+      console.log("result", data)
+    }
   })
 
   if(error){
@@ -47,30 +50,30 @@ const Organizations = () => {
   }
 
   return (
-    <Layout>
+    <>
       <Search 
-        getResults={getUsers}
-        searchKey="login"
+        getResults={getOrgs}
+        searchKey="name"
         data={data}
-        getSelected={(user) => {
-          console.log("user", user)
-          setRepos(user.repos)
-          setUser(user)
+        getSelected={(org) => {
+          console.log("org", org)
+          setRepos(org.repos)
+          setOrg(org)
         }}
       />
 
       {error ? <Alert>{error.message}</Alert> : null}
 
-      {user ? <UserCard user={user}></UserCard> : null}
+      {org ? <UserCard user={org}></UserCard> : null}
 
       <GridContainer>
           
           {repos && repos.length ? repos.map((repo) => (
               <RepoCard key={repo.id} repo={repo}/>
-            )) : (user ? <Alert>"No matching repositories found."</Alert> : null)}
+            )) : (org ? <Alert>"No matching repositories found."</Alert> : null)}
 
       </GridContainer>
-    </Layout>
+    </>
   );
 };
 
