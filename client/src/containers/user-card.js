@@ -9,7 +9,7 @@ const UserCard = ({ user }) => {
     return(
         <CardContainer>
             <UserAvatarContainer>
-                <UserAvatar src={`https://ui-avatars.com/api/?name=${user.fullName}`} alt={user.fullName}/>
+                <UserAvatar src={`https://git.door43.org/user/avatar/${user.name}/290`} alt={user.fullName}/>
             </UserAvatarContainer>
             <UserInfo>
                 <UserFullName>{user.fullName}</UserFullName>

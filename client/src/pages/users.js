@@ -37,9 +37,16 @@ const USERS = gql`
 const Users = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
-  const [getUsers, { loading, error, data }] = useLazyQuery(USERS, {
-    onCompleted: (data) => { console.log("resultado", data)}
-  })
+  const [getUsers, { loading, error, data }] = useLazyQuery(
+    USERS, 
+    {
+      onCompleted: (data) => { 
+        console.log("resultado", data)
+        console.log(document.activeElement)
+        document.dispatchEvent(new KeyboardEvent('keypdown', {'key': 'H'}));
+      }
+    }
+  )
 
   if(error){
     console.error( error)
