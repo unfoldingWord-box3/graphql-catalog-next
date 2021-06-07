@@ -80,6 +80,7 @@ const resolvers = {
 			return dataSources.catalogNext.getUserByName(name)
 		},
 		userSearch(_, { name }, { dataSources }) {
+			console.log(dataSources.catalogNext.searchUsers(name))
 			return dataSources.catalogNext.searchUsers(name)
 		},
 		repo(_, { repoName, userName }, { dataSources }) {
