@@ -6,16 +6,8 @@ import RepoCard from '../containers/repo-card';
 import UserCard from '../containers/user-card';
 import styled from '@emotion/styled';
 import { Alert } from '../components/alert';
+import TeamsCard from '../containers/teams-card'
 
-const GridContainer = styled.div(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  alignSelf: 'center',
-  flexGrow: 1,
-  maxWidth: null,
-  width: '100%',
-}));
 
 /** TRACKS query to retrieve all tracks */
 const ORGS = gql`
@@ -61,10 +53,15 @@ const Organizations = () => {
           setOrg(org)
         }}
       />
+      
+
+      <OrgContainer>
+        
+        {org ? <><UserCard user={org}></UserCard><TeamsCard org={org}/></> : null}
+
+      </OrgContainer>
 
       {error ? <Alert>{error.message}</Alert> : null}
-
-      {org ? <UserCard user={org}></UserCard> : null}
 
       <GridContainer>
           
@@ -78,3 +75,19 @@ const Organizations = () => {
 };
 
 export default Organizations;
+
+const OrgContainer = styled.div({
+  display: 'grid',
+  gridTemplateColumns: '1fr auto',
+  width:'97%'
+})
+
+const GridContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignSelf: 'center',
+  flexGrow: 1,
+  maxWidth: null,
+  width: '100%',
+}));
