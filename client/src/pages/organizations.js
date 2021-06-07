@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Layout, QueryResult } from '../components';
 import Search from './search';
 import { useLazyQuery, gql } from '@apollo/client';
 import RepoCard from '../containers/repo-card';
@@ -17,12 +18,12 @@ const GridContainer = styled.div(() => ({
 }));
 
 /** TRACKS query to retrieve all tracks */
-const USERS = gql`
+const ORGS = gql`
   query getUsers($key: String!) {
-    userSearch(name: $key) {
+    orgSearch(name: $key) {
       id
       fullName
-      name
+      login
       repos {
         id
         name
@@ -34,10 +35,10 @@ const USERS = gql`
   }
 `;
 
-const Users = () => {
+const Organizations = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
-  const [getUsers, { loading, error, data }] = useLazyQuery(USERS, {
+  const [getUsers, { loading, error, data }] = useLazyQuery(ORGS, {
     onCompleted: (data) => { console.log("resultado", data)}
   })
 
@@ -46,10 +47,10 @@ const Users = () => {
   }
   
   return (
-    <>
+    <Layout>
       <Search 
         getResults={getUsers}
-        searchKey="name"
+        searchKey="login"
         data={data}
         getSelected={(user) => {
           console.log("user", user)
@@ -69,8 +70,8 @@ const Users = () => {
             )) : (user ? <Alert>"No matching repositories found."</Alert> : null)}
 
       </GridContainer>
-    </>
+    </Layout>
   );
 };
 
-export default Users;
+export default Organizations;

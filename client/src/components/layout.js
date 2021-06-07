@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, Footer } from '../components';
 import styled from '@emotion/styled';
 import { widths, unit } from '../styles';
+import { Link } from '@reach/router';
 
 /**
  * Layout renders the full page content:
@@ -10,7 +11,7 @@ import { widths, unit } from '../styles';
 const Layout = ({ fullWidth, children, grid }) => {
   return (
     <>
-      <Header />
+      <Header/>
       <PageContainer fullWidth={fullWidth} grid={grid}>
         {children}
       </PageContainer>

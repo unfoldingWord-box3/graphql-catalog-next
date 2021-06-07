@@ -21,6 +21,11 @@ const Header = ({ children }) => {
             </HomeButton>
           </HomeLink>
         </HomeButtonContainer>
+        <LinksContainer>
+          <NavLink to="/users">Users</NavLink>
+          <NavLink to="/organizations">Organizations</NavLink>
+          <NavLink to="/repositories">Repositories</NavLink>
+        </LinksContainer>
         {children}
       </Container>
     </HeaderBar>
@@ -44,6 +49,8 @@ const HeaderBar = styled.div({
 
 const Container = styled.div({
   width: `${widths.regularPageWidth}px`,
+  display: "grid",
+  gridTemplateColumns: "auto 1fr",
 });
 
 const HomeLink = styled(Link)({
@@ -64,6 +71,22 @@ const HomeButton = styled.div({
     color: colors.blue.base,
   },
 });
+
+const LinksContainer = styled.div({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+})
+
+const NavLink = styled(Link)({
+  textDecoration: 'none',
+  color: colors.blue.dark,
+  marginLeft:20,
+  fontWeight: 400,
+  ':hover': {
+    color: colors.blue.base,
+  },
+})
 
 const Title = styled.div({
   display: 'flex',
