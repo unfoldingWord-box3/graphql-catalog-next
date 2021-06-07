@@ -1,12 +1,17 @@
 import React, { Fragment } from 'react';
 import { Router } from '@reach/router';
+import { Layout, QueryResult } from '../components';
 /** importing our pages */
-import Tracks from './tracks';
+import Users from './users';
+import Organizations from './organizations';
 
 export default function Pages() {
   return (
-    <Router primary={false} component={Fragment}>
-      <Tracks path="/" />
-    </Router>
+    <Layout>
+      <Router primary={false} component={Fragment}>
+        <Users path="/users" />
+        <Organizations path="/users" />
+      </Router>
+    </Layout>
   );
 }

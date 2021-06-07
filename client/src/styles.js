@@ -15,7 +15,7 @@ export const widths = {
 export const colors = {
   primary: SKColors.indigo.base,
   secondary: SKColors.teal.base,
-  accent: SKColors.pink.base,
+  accent: SKColors.blue.base,
   background: SKColors.silver.light,
   grey: SKColors.silver.dark,
   text: SKColors.black.base,
@@ -40,7 +40,7 @@ const GlobalStyles = () => (
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100%',
-        backgroundImage: 'url("/space_kitty_pattern.png")',
+        backgroundImage: 'url("/apollo_pattern.png")',
       },
       '*': {
         boxSizing: 'border-box',
