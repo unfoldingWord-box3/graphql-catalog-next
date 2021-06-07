@@ -91,6 +91,9 @@ const resolvers = {
 	},
 
 	Release: {
+		repo(parent, args, { dataSources }){
+			return dataSources.catalogNext.getRepoById(parent.repoId)
+		},
 		publisher(parent, args, { dataSources}) {
 			return dataSources.catalogNext.getUserById(parent.publisherId)
 		},
@@ -103,32 +106,56 @@ const resolvers = {
 		allOrgs(_, args, { dataSources }) {
 			return dataSources.catalogNext.getOrgUsers()
 		},
-		orgsByName(_, { name }, { dataSources }) {
-			return dataSources.catalogNext.getOrgsByName()
+		allUsers(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllUsers()
+		},
+		allRepos(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllRepos()
+		},
+		allReleases(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllReleases()
+		},
+		allCatalogs(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllCatalogs()
+		},
+		org(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.getOrgByName()
 		},
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
 		},
-		userSearch(_, { name }, { dataSources }) {
-			return dataSources.catalogNext.searchUsers(name)
-		},
 		repo(_, { repoName, userName }, { dataSources }) {
 			return dataSources.catalogNext.getRepoByNameAndOwner(repoName, userName)
 		},
-		reposByName(_, { name }, { dataSources }) {
-			return dataSources.catalogNext.getReposByName(name)
+		release(_, { repoName, userName, tagName}, { dataSources }) {
+			return dataSources.catalogNext.getRelease(repoName, userName, tagName)
 		},
 		catalog(_, { repoName, userName, branchOrTag }, { dataSources }) {
 			return dataSources.catalogNext.getOneCatalog(repoName, userName, branchOrTag)
+		},
+		orgsSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchOrgs(name)
+		},
+		usersSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchUsers(name)
+		},
+		reposSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchRepos(name)
+		},
+		releasesSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchReleases(name)
+		},
+		catalogsSearch(_, { searchWord }, { dataSources }) {
+			return dataSources.catalogNext.searchCatalogs(searchWord)
+		},
+		reposByName(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.getReposByName(name)
 		},
 		catalogsByRepo(_, { repoName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByRepo(repoName)
 		},
 		catalogsByOwner(_, { userName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByOwner(userName)
-		},
-		catalogSearch(_, { searchWord }, { dataSources }) {
-			return dataSources.catalogNext.searchCatalogs(searchWord)
 		}
 
 	}

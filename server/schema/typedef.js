@@ -99,6 +99,7 @@ let typeDefs = gql`
 	 scalar TypelessData
 
 	 type Catalog {
+	 	id: ID!
 	 	metadataVersion: String
 	 	metadata: TypelessData!
 	 	repo: Repo!
@@ -109,6 +110,8 @@ let typeDefs = gql`
 	 }
 
 	 type Release {
+	 	id: ID!
+	 	repo: Repo
 	 	title: String
 	 	target: String
 	 	note: String
@@ -117,16 +120,27 @@ let typeDefs = gql`
 	 }
 
 	type Query {
-		allOrgs: [Organization]
-		orgsByName: [Organization]
+		org(name: String): Organization
 		user(name: String): User
-		userSearch(name: String): [User]
 		repo(repoName: String, userName: String): Repo
-		reposByName(name: String): [Repo]
+		release(repoName: String, userName: String, tagName: String): Release
 		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
+
+		allOrgs: [Organization]
+		allUsers: [User]
+		allRepos: [Repo]
+		allReleases: [Release]
+		allCatalogs: [Catalog]
+
+		orgsSearch(name: String): [Organization]
+		usersSearch(name: String): [User]
+		reposSearch(name: String): [Repo]
+		releasesSearch(name: String): [Release]
+		catalogsSearch(searchWord: String): [Catalog]
+
+		reposByName(name: String): [Repo]
 		catalogsByRepo(repoName: String): [Catalog]
 		catalogsByOwner(userName: String): [Catalog]
-		catalogSearch(searchWord: String): [Catalog]
 	}
 `;
 

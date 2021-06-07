@@ -12,6 +12,42 @@ class CatalogNext extends SQLDataSource {
         })
   }
 
+  async getAllUsers() {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getAllRepos() {
+    const qry = this.knex
+      .select('*')
+      .from('repository')
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getAllReleases() {
+    const qry = this.knex
+      .select('*')
+      .from('release')
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getAllCatalogs() {
+    const qry = this.knex
+      .select('*')
+      .from('door43_metadata')
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
   async getUserByName(name) {
     const qry = this.knex
       .select('*')
@@ -174,11 +210,12 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
-  async getOrgsByname(name) {
+  async getOrgByname(name) {
     const qry = this.knex
       .select('*')
       .from('user')
       .where({"type":1, "name": name})
+      .first()
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
@@ -233,18 +270,64 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
+  async getRelease(repoName, userName, tagName){
+    const qry = this.knex
+      .select('*')
+      .from('release')
+      .join('repository', 'release.repo_id', '=', 'repository.id')
+      .where({"repository.lower_name":repoName.toLowerCase(),
+              "repository.owner_name":userName.toLowerCase(),
+              "release.tag_name":tagName.toLowerCase()})
+      .first()
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+
+  }
   async searchCatalogs(searchWord) {
     const qry = this.knex
       .select('*')
       .from('door43_metadata')
       .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
       .where(this.knex.raw('CONCAT(??, ??, ??)', ["lower_name", "owner_name", "description"]),
-        "LIKE", `%${searchWord}%`)
+        "LIKE", `%${searchWord.toLowerCase()}%`)
       .cache(MINUTE)
       let res = await this.queryDB(qry)
       return camelcaseKeys(res, { deep: true })
   }
 
+  async searchOrgs(name) {
+    const qry = this.knex
+      .select("*")
+      .from('user')
+      .where({"type": 1})
+      .where("lower_name", "like", `%${name.toLowerCase()}%`)
+      .cache(MINUTE)
+      let res = await this.queryDB(qry)
+      return camelcaseKeys(res, { deep: true })
+  }
+
+  async searchRepos(name) {
+    const qry = this.knex
+      .select("*")
+      .from('repository')
+      .where("lower_name", "like", `%${name.toLowerCase()}%`)
+      .cache(MINUTE)
+      let res = await this.queryDB(qry)
+      return camelcaseKeys(res, { deep: true })
+  }
+
+  async searchReleases(name)  {
+    const qry = this.knex
+      .select("*")
+      .from('release')
+      .join('repository','release.repo_id', "=", 'repository.id')
+      .where(this.knex.raw('CONCAT(??,??,??)',['title', 'repository.lower_name', 'repository.owner_name']),
+        "LIKE", `%${name.toLowerCase()}%`)
+      .cache(MINUTE)
+      let res = await this.queryDB(qry)
+      return camelcaseKeys(res, { deep: true })
+  }
 }
 
 module.exports.CatalogNext = CatalogNext
