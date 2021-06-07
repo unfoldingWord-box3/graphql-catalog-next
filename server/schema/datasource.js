@@ -97,7 +97,17 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
-  
+  async getRepoAccess(repoId) {
+    const qry = this.knex
+      .select('*')
+      .from('access')
+      // .join('repo_topic', "repo_topic.topic_id", "=", 'topic.id')
+      .where({'repo_id': repoId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    
+    return camelcaseKeys(res, { deep: true })    
+  }  
 
   async getUserById(userId) {
     const qry = this.knex

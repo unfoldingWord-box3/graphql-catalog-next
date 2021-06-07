@@ -24,6 +24,11 @@ let typeDefs = gql`
 	   repos: [Repo]
 	 }
 
+	type Access {
+		user: User
+		mode: Int
+	}
+
     type Repo {
 	   id: ID!
 	   owner: User!
@@ -32,6 +37,7 @@ let typeDefs = gql`
 	   description: String!
 	   repoLanguages: [ComputerLanguage]
 	   repoSubjects: [Subjects]
+	   userPermissions: [Access]
 	   empty: Boolean
 	   private: Boolean
 	   fork: Boolean

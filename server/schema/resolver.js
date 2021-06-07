@@ -30,6 +30,15 @@ const resolvers = {
 		},
 		repoSubjects(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getRepoTopics(parent.id)
+		},
+		userPermissions(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getRepoAccess(parent.id)
+		}
+	},
+
+	Access: {
+		user(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getUserById(parent.userId)
 		}
 	},
 
