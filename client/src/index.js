@@ -5,7 +5,7 @@ import Pages from './pages';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'http://develop.door43.org:4000',
+  uri: 'https://develop.door43.org:4000',
   cache: new InMemoryCache(),
 })
 
