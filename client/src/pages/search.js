@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
+
   const [items, setItems] = useState([])
+  const [query, setQuery] = useState("")
 
   const fuseOptions = {
 
@@ -21,13 +23,14 @@ const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
-    console.log({ string, results, items })
-    getResults({ variables: { key: string } })
-  }
 
-  const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result)
+    if( string.length > 3 && (!query || !string.includes(query))) {
+      setQuery(string)
+      console.log("queryString",string)
+      getResults({ variables: { key: string } })
+      return
+    }
+    
   }
 
   const handleOnSelect = (item) => {
@@ -38,20 +41,14 @@ const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
     }
   }
 
-  const handleOnFocus = () => {
-    console.log('Focused')
-  }
-
   return (
     <div style={{ width: '100%', zIndex: 3 }}>
       <ReactSearchAutocomplete
         autoFocus
         items={items}
         onSearch={handleOnSearch}
-        onHover={handleOnHover}
         onSelect={handleOnSelect}
-        onFocus={handleOnFocus}
-        inputDebounce={0}
+        inputDebounce={200}
         fuseOptions={fuseOptions}
         resultStringKeyName={searchKey}
       />

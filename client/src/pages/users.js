@@ -37,10 +37,10 @@ const USERS = gql`
 const Users = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
-  const [getUsers, { loading, error, data }] = useLazyQuery(USERS)
+  const [getUsers, { loading, error, data }] = useLazyQuery(USERS, {
+    onCompleted: (data) => { console.log("resultado", data)}
+  })
   
-  console.log({ loading, error, data })
-
   return (
     <Layout>
       <Search 
@@ -60,7 +60,7 @@ const Users = () => {
 
           {repos && repos.length ? repos.map((repo) => (
               <RepoCard key={repo.id} repo={repo}/>
-            )) : "No matching repositories found."}
+            )) : (user ? "No matching repositories found." : null)}
 
       </GridContainer>
     </Layout>
