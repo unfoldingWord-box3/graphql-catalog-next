@@ -25,6 +25,7 @@ const Header = ({ children }) => {
           <NavLink to="/users">Users</NavLink>
           <NavLink to="/organizations">Organizations</NavLink>
           <NavLink to="/repositories">Repositories</NavLink>
+          <NavLink to="/releases">Releases</NavLink>
         </LinksContainer>
         {children}
       </Container>
