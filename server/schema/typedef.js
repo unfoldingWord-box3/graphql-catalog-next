@@ -3,10 +3,11 @@ const { gql } = require('apollo-server');
 let typeDefs = gql`
 	type ComputerLanguage {
 	   language: String
+	   isPrimary: Boolean
 	 }
 	 
 	 type Subjects {
-	   subject: String
+	   name: String
 	 }
 
 	type User {

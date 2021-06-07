@@ -76,6 +76,29 @@ class CatalogNext extends SQLDataSource {
 
   }
 
+  async getLangsOfRepo(repoId) {
+    const qry = this.knex
+      .select('*')
+      .from('language_stat')
+      .where({'repo_id': repoId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  async getRepoTopics(repoId) {
+    const qry = this.knex
+      .select('*')
+      .from('topic')
+      .join('repo_topic', "repo_topic.topic_id", "=", 'topic.id')
+      .where({'repo_topic.repo_id': repoId})
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
+  
+
   async getUserById(userId) {
     const qry = this.knex
       .select('*')

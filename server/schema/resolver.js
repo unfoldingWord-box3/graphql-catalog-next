@@ -24,6 +24,12 @@ const resolvers = {
 	Repo: {
 		owner(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getUserById(parent.ownerId)
+		},
+		repoLanguages(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getLangsOfRepo(parent.id)
+		},
+		repoSubjects(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getRepoTopics(parent.id)
 		}
 	},
 
