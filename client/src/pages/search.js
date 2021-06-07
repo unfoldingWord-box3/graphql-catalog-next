@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
-
   const [items, setItems] = useState([])
   const [query, setQuery] = useState("")
 
@@ -11,7 +10,7 @@ const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
     keys: [
       searchKey
     ],
-    
+
   }
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
       getResults({ variables: { key: string } })
       return
     }
-    
+
   }
 
   const handleOnSelect = (item) => {
