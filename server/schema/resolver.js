@@ -92,7 +92,7 @@ const resolvers = {
 			return dataSources.catalogNext.searchUsers(name)
 		},
 		repo(_, { repoName, userName }, { dataSources }) {
-			return dataSources.catalogNext.getReposByNameAndOwner(repoName, userName)
+			return dataSources.catalogNext.getRepoByNameAndOwner(repoName, userName)
 		},
 		reposByName(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getReposByName(name)
