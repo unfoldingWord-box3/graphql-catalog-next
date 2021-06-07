@@ -18,6 +18,9 @@ const resolvers = {
 	User: {
 		repos(parent, args, {dataSources}){
 			return dataSources.catalogNext.getReposByOwner(parent.id)
+		},
+		avatarUrl(parent) {
+			return `git.door43.org/user/avatar/${parent.lowerName}/290`
 		}
 	},
 
@@ -33,6 +36,21 @@ const resolvers = {
 		},
 		userPermissions(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getRepoAccess(parent.id)
+		},
+		htmlUrl(parent) {
+			return `git.door43.org/${parent.ownerName}/${parent.lowerName}/`
+		},
+		sshUrl(parent) {
+			return `git@git.door43.org:${parent.ownerName}/${parent.lowerName}.git`
+		},
+		cloneUrl(parent) {
+			return `git.door43.org/${parent.ownerName}/${parent.lowerName}.git`
+		},
+		avatarUrl(parent) {
+			if (parent.avatar !== null && parent.avatar !== "") {
+				return `git.door43.org/repo-avatars/${parent.avatar}`
+			}
+			return null
 		}
 	},
 
@@ -48,6 +66,9 @@ const resolvers = {
 		},
 		members(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getOrgMembers(parent.id)
+		},
+		avatarUrl(parent) {
+			return `git.door43.org/user/avatar/${parent.lowerName}/290`
 		}
 	},
 
