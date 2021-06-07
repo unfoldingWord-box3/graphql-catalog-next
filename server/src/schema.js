@@ -104,14 +104,16 @@ let typeDefs = gql`
 	type Query {
 		allOrgs: [Organization]
 		orgsByName: [Organization]
+		userSearch(name: String): [User]
 		user(name: String): User
-    allUsers(name: String): [User]
+    	allUsers(name: String): [User]
 		repo(repoName: String, userName: String): Repo
 		reposByName(name: String): [Repo]
 		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
 		catalogsByRepo(repoName: String): [Catalog]
 		catalogsByOwner(userName: String): [Catalog]
 		catalogSearch(searchWord: String): [Catalog]
+		userById(id: ID): User
 	}
 `;
 

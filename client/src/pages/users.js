@@ -19,7 +19,7 @@ const GridContainer = styled.div(() => ({
 /** TRACKS query to retrieve all tracks */
 const USERS = gql`
   query getUsers($key: String!) {
-    allUsers(name: $key) {
+    userSearch(name: $key) {
       id
       fullName
       login
