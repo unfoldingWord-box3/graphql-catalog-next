@@ -73,6 +73,9 @@ const resolvers = {
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
 		},
+		userSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchUsers(name)
+		},
 		repo(_, { repoName, userName }, { dataSources }) {
 			return dataSources.catalogNext.getReposByNameAndOwner(repoName, userName)
 		},

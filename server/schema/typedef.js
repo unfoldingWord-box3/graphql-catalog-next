@@ -113,6 +113,7 @@ let typeDefs = gql`
 		allOrgs: [Organization]
 		orgsByName: [Organization]
 		user(name: String): User
+		userSearch(name: String): [User]
 		repo(repoName: String, userName: String): Repo
 		reposByName(name: String): [Repo]
 		catalog(repoName: String, userName: String, branchOrTag: String): Catalog

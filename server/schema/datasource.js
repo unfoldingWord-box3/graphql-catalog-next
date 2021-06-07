@@ -23,6 +23,16 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
+  async searchUsers(name) {
+    const qry = this.knex
+      .select('*')
+      .from('user')
+      .where('lower_name', "LIKE", `%${name.toLowerCase()}%`)
+      .cache(MINUTE)
+    let res = await this.queryDB(qry)
+    return camelcaseKeys(res, { deep: true })
+  }
+
   async getReposByName(name) {
     const qry = this.knex
       .select('*')
