@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, QueryResult } from '../components';
+import { Layout } from '../components';
 import Search from './search';
 import { useLazyQuery, gql } from '@apollo/client';
 import RepoCard from '../containers/repo-card';
@@ -38,14 +38,14 @@ const ORGS = gql`
 const Organizations = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
-  const [getUsers, { loading, error, data }] = useLazyQuery(ORGS, {
+  const [getUsers, { error, data }] = useLazyQuery(ORGS, {
     onCompleted: (data) => { console.log("resultado", data)}
   })
 
   if(error){
     console.error( error)
   }
-  
+
   return (
     <Layout>
       <Search 

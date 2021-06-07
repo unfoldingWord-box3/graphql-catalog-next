@@ -37,7 +37,7 @@ const USERS = gql`
 const Users = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
-  const [getUsers, { loading, error, data }] = useLazyQuery(
+  const [getUsers, { error, data }] = useLazyQuery(
     USERS, 
     {
       onCompleted: (data) => { 

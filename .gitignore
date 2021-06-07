@@ -1,7 +1,7 @@
 node_modules
 .DS_Store
 .env
-
+client/build
 # Logs
 logs
 *.log

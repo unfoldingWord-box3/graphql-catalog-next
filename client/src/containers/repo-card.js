@@ -102,14 +102,6 @@ const CardFooter = styled.div({
   flexDirection: 'Row',
 });
 
-const AuthorImage = styled.img({
-  height: 30,
-  width: 30,
-  marginRight: 8,
-  borderRadius: '50%',
-  objectFit: 'cover',
-});
-
 const AuthorAndTrack = styled.div({
   display: 'flex',
   flexDirection: 'column',

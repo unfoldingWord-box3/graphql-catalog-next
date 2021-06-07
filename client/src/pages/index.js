@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Router } from '@reach/router';
-import { Layout, QueryResult } from '../components';
+import { Layout } from '../components';
 /** importing our pages */
 import Users from './users';
 import Organizations from './organizations';

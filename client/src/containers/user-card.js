@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { colors, mq } from '../styles';
+import { colors } from '../styles';
 
 const UserCard = ({ user }) => {
 
