@@ -1,1 +1,1 @@
-# Catstronauts - server
+# Graphql catalog next - server
