@@ -1,6 +1,7 @@
 # graphql-catalog-next
 
-Graphql Catalog Next Implementation
+Catalog Next GraphQL Implementation
+
 ## Run the project
 
 graphql-catalog-next full-stack app holds two main folders `server` and `client`.
