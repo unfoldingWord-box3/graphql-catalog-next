@@ -43,12 +43,13 @@ class CatalogNext extends SQLDataSource {
     return camelcaseKeys(res, { deep: true })
   }
 
-  async getReposByNameAndOwner(repoName, userName) {
+  async getRepoByNameAndOwner(repoName, userName) {
     const qry = this.knex
       .select('*')
       .from('repository')
       .join("user", "repository.owner_id", "=", "user.id")
-      .where({"respository.lower_name":repoName.toLowerCase(), "user.lower_name":userName.toLowerCase()})
+      .where({"repository.lower_name":repoName.toLowerCase(), "user.lower_name":userName.toLowerCase()})
+      .first()
       .cache(MINUTE)
     let res = await this.queryDB(qry)
     return camelcaseKeys(res, { deep: true })
