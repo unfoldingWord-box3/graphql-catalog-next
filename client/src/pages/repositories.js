@@ -20,15 +20,12 @@ const REPOS = gql`
     reposByName(name: $key) {
       id
       name
-      title
       description
       originalUrl
       sshUrl
       htmlUrl
       cloneUrl
       avatarUrl
-      language
-      books
       repoLanguages {
         language
       }
