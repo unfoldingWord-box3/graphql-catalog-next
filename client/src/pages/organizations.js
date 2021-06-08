@@ -7,24 +7,42 @@ import UserCard from '../containers/user-card';
 import styled from '@emotion/styled';
 import { Alert } from '../components/alert';
 import TeamsCard from '../containers/teams-card'
+import MembersCard from '../containers/members-card'
 
 
 /** TRACKS query to retrieve all tracks */
 const ORGS = gql`
   query getOrgs($key: String!) {
-    userSearch(name: $key) {
+    orgsSearch(name: $key) {
       id
-      fullName
       name
-      email
-      repos {
+			avatarUrl
+  		members {
+        avatarUrl
+        name
+        id
+      }
+  		teams{
+        id
+        name
+        teamRepos{
+          name
+          id
+        }
+        members {
+          avatarUrl
+          name
+          id
+      	}
+      }
+      repos{
         id
         name
         description
         avatarUrl
         htmlUrl
       }
-    }
+    } 
   }
 `;
 
@@ -53,33 +71,44 @@ const Organizations = () => {
           setOrg(org)
         }}
       />
-      
-
-      <OrgContainer>
-        
-        {org ? <><UserCard user={org}></UserCard><TeamsCard org={org}/></> : null}
-
-      </OrgContainer>
-
       {error ? <Alert>{error.message}</Alert> : null}
 
-      <GridContainer>
+      <MainContainer>
+        
+        <OrgContainer>
           
-          {repos && repos.length ? repos.map((repo) => (
-              <RepoCard key={repo.id} repo={repo}/>
-            )) : (org ? <Alert>"No matching repositories found."</Alert> : null)}
+          {org ? <UserCard user={org}></UserCard> : null}
+          <GridContainer>
+            
+            {repos && repos.length ? repos.map((repo) => (
+                <RepoCard key={repo.id} repo={repo}/>
+              )) : (org ? <Alert>"No matching repositories found."</Alert> : null)}
 
-      </GridContainer>
+          </GridContainer>
+
+        </OrgContainer>
+
+        {org ? <OrgDetailsContainer><TeamsCard org={org}/><MembersCard org={org}></MembersCard></OrgDetailsContainer>: null}
+
+      </MainContainer>
     </>
   );
 };
 
 export default Organizations;
 
-const OrgContainer = styled.div({
+
+const MainContainer = styled.div({
   display: 'grid',
   gridTemplateColumns: '1fr auto',
-  width:'97%'
+})
+
+const OrgDetailsContainer = styled.div({
+
+})
+
+const OrgContainer = styled.div({
+  
 })
 
 const GridContainer = styled.div(() => ({
