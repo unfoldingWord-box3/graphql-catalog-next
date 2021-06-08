@@ -12,7 +12,7 @@ export default function Pages() {
     <Layout>
       <Router primary={false} component={Fragment}>
         <Users path="/users" />
-        <Organizations path="/users" />
+        <Organizations path="/organizations" />
         <Releases path="/releases" />
         <Repositories path="/repositories" />
       </Router>

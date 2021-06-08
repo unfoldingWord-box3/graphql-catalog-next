@@ -1,29 +1,21 @@
 import React, { useState } from 'react';
-import { Layout } from '../components';
 import Search from './search';
 import { useLazyQuery, gql } from '@apollo/client';
 import RepoCard from '../containers/repo-card';
 import UserCard from '../containers/user-card';
 import styled from '@emotion/styled';
 import { Alert } from '../components/alert';
+import TeamsCard from '../containers/teams-card'
 
-const GridContainer = styled.div(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  alignSelf: 'center',
-  flexGrow: 1,
-  maxWidth: null,
-  width: '100%',
-}));
 
 /** TRACKS query to retrieve all tracks */
 const ORGS = gql`
-  query getUsers($key: String!) {
-    orgSearch(name: $key) {
+  query getOrgs($key: String!) {
+    userSearch(name: $key) {
       id
       fullName
-      login
+      name
+      email
       repos {
         id
         name
@@ -37,9 +29,11 @@ const ORGS = gql`
 
 const Organizations = () => {
   const [repos, setRepos] = useState(null)
-  const [user, setUser] = useState(null)
-  const [getUsers, { error, data }] = useLazyQuery(ORGS, {
-    onCompleted: (data) => { console.log("resultado", data)}
+  const [org, setOrg] = useState(null)
+  const [getOrgs, { error, data }] = useLazyQuery(ORGS, {
+    onCompleted: (data) => {
+      console.log("result", data)
+    }
   })
 
   if(error){
@@ -47,33 +41,54 @@ const Organizations = () => {
   }
 
   return (
-    <Layout>
-      <h1>Search by Door43 organization:</h1>
+    <>
+      <h1>Search by Door43 organization name:</h1>
       <br/>
       <Search
-        getResults={getUsers}
-        searchKey="login"
+        getResults={getOrgs}
+        searchKey="name"
         data={data}
-        getSelected={(user) => {
-          console.log("user", user)
-          setRepos(user.repos)
-          setUser(user)
+        getSelected={(org) => {
+          console.log("org", org)
+          setRepos(org.repos)
+          setOrg(org)
         }}
       />
 
-      {error ? <Alert>{error.message}</Alert> : null}
 
-      {user ? <UserCard user={user}></UserCard> : null}
+      <OrgContainer>
+
+        {org ? <><UserCard user={org}></UserCard><TeamsCard org={org}/></> : null}
+
+      </OrgContainer>
+
+      {error ? <Alert>{error.message}</Alert> : null}
 
       <GridContainer>
 
           {repos && repos.length ? repos.map((repo) => (
               <RepoCard key={repo.id} repo={repo}/>
-            )) : (user ? <Alert>"No matching repositories found."</Alert> : null)}
+            )) : (org ? <Alert>"No matching repositories found."</Alert> : null)}
 
       </GridContainer>
-    </Layout>
+    </>
   );
 };
 
 export default Organizations;
+
+const OrgContainer = styled.div({
+  display: 'grid',
+  gridTemplateColumns: '1fr auto',
+  width:'97%'
+})
+
+const GridContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignSelf: 'center',
+  flexGrow: 1,
+  maxWidth: null,
+  width: '100%',
+}));

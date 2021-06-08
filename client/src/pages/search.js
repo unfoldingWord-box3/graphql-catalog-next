@@ -26,6 +26,7 @@ const Search = ({ getResults, data, getSelected, searchKey = "name" }) => {
     if( string.length > 3 && (!query || !string.includes(query))) {
       setQuery(string)
       console.log("queryString",string)
+      console.log("results",results)
       getResults({ variables: { key: string } })
       return
     }
