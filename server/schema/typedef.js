@@ -38,35 +38,32 @@ let typeDefs = gql`
 	   repoLanguages: [ComputerLanguage]
 	   repoSubjects: [Subjects]
 	   userPermissions: [Access]
-	   empty: Boolean
-	   private: Boolean
-	   fork: Boolean
-	   template: Boolean
-	   mirror: Boolean
-	   size: Int
 	   htmlUrl: String
 	   sshUrl: String
 	   cloneUrl: String
 	   originalUrl: String
 	   website: String
-	   starsCount: Int
-	   forksCount: Int
-	   watchersCount: Int
-	   openIssues_count: Int
-	   openPrCounter: Int
-	   releaseCounter: Int
 	   defaultBranch: String
-	   archived: Boolean
+	   isPrivate: Boolean
+	   isMirror: Boolean
+	   isFork: Boolean
+	   isEmpty: Boolean
+	   isArchieved: Boolean
+	   isTemplate: Boolean
+	   numStars: Int
+	   numForks: Int
+	   numWatches: Int
+	   numPulls: Int
+	   numClosedPulls: Int
+	   numIssues: Int
+	   numClosedIssues: Int
+	   numMilestones: Int
+	   numClosedMilestones: Int
+	   numProjects: Int
+	   numClosedProjects: Int
 	   createdAt: String
 	   updatedAt: String
-	   #permissions: Permissions
-	   hasIssues: Boolean,
 	   avatarUrl: String
-	   language: String
-	   subject: String
-	   books: String
-	   title: String
-	   checkingLevel: String
 	 }
 
 	type Organization {
@@ -98,15 +95,17 @@ let typeDefs = gql`
 
 	 scalar TypelessData
 
-	 type Catalog {
+	 type CatalogEntry {
 	 	id: ID!
 	 	metadataVersion: String
 	 	metadata: TypelessData!
-	 	repo: Repo!
+	 	repo: Repo
 	 	release: Release
 	 	stage: Int
 	 	branchOrTag: String!
 	 	releaseDateUnix: String
+	 	books: [String]
+	 	checkingLevel: String
 	 }
 
 	 type Release {
@@ -124,23 +123,23 @@ let typeDefs = gql`
 		user(name: String): User
 		repo(repoName: String, userName: String): Repo
 		release(repoName: String, userName: String, tagName: String): Release
-		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
+		catalogEntry(repoName: String, userName: String, branchOrTag: String): CatalogEntry
 
 		allOrgs: [Organization]
 		allUsers: [User]
 		allRepos: [Repo]
 		allReleases: [Release]
-		allCatalogs: [Catalog]
+		fullCatalog: [CatalogEntry]
 
 		orgsSearch(name: String): [Organization]
 		usersSearch(name: String): [User]
 		reposSearch(name: String): [Repo]
 		releasesSearch(name: String): [Release]
-		catalogsSearch(searchWord: String): [Catalog]
+		catalogSearch(searchWord: String): [CatalogEntry]
 
 		reposByName(name: String): [Repo]
-		catalogsByRepo(repoName: String): [Catalog]
-		catalogsByOwner(userName: String): [Catalog]
+		catalogByRepo(repoName: String): [CatalogEntry]
+		catalogByOwner(userName: String): [CatalogEntry]
 	}
 `;
 

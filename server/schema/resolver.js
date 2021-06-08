@@ -11,7 +11,8 @@ const GraphQlTypelessData = new GraphQLScalarType({
 		return result
 	}
 });
-
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  
 const resolvers = {
     TypelessData: GraphQlTypelessData,
 
@@ -51,6 +52,14 @@ const resolvers = {
 				return `git.door43.org/repo-avatars/${parent.avatar}`
 			}
 			return null
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
 		}
 	},
 
@@ -81,12 +90,24 @@ const resolvers = {
 		}
 	},
 
-	Catalog: {
+	CatalogEntry: {
 		repo(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getRepoById(parent.repoId)
 		},
 		release(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getReleaseById(parent.releaseId)
+		},
+		books(parent, args, { dataSources }) {
+			const meta = JSON.parse(parent.metadata)
+			let books = []
+			for (var i = meta.projects.length - 1; i >= 0; i--) {
+				books.push(meta.projects[i].identifier)
+			}
+			return books
+		},
+		checkingLevel(parent) {
+			const meta = JSON.parse(parent.metadata)
+			return meta.checking.checking_level
 		}
 	},
 
@@ -115,7 +136,7 @@ const resolvers = {
 		allReleases(_, args, { dataSources }) {
 			return dataSources.catalogNext.getAllReleases()
 		},
-		allCatalogs(_, args, { dataSources }) {
+		fullCatalog(_, args, { dataSources }) {
 			return dataSources.catalogNext.getAllCatalogs()
 		},
 		org(_, { name }, { dataSources }) {
@@ -130,7 +151,7 @@ const resolvers = {
 		release(_, { repoName, userName, tagName}, { dataSources }) {
 			return dataSources.catalogNext.getRelease(repoName, userName, tagName)
 		},
-		catalog(_, { repoName, userName, branchOrTag }, { dataSources }) {
+		catalogEntry(_, { repoName, userName, branchOrTag }, { dataSources }) {
 			return dataSources.catalogNext.getOneCatalog(repoName, userName, branchOrTag)
 		},
 		orgsSearch(_, { name }, { dataSources }) {
@@ -145,16 +166,16 @@ const resolvers = {
 		releasesSearch(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.searchReleases(name)
 		},
-		catalogsSearch(_, { searchWord }, { dataSources }) {
+		catalogSearch(_, { searchWord }, { dataSources }) {
 			return dataSources.catalogNext.searchCatalogs(searchWord)
 		},
 		reposByName(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getReposByName(name)
 		},
-		catalogsByRepo(_, { repoName }, { dataSources }) {
+		catalogByRepo(_, { repoName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByRepo(repoName)
 		},
-		catalogsByOwner(_, { userName }, { dataSources }) {
+		catalogByOwner(_, { userName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByOwner(userName)
 		}
 
