@@ -48,7 +48,9 @@ const Organizations = () => {
 
   return (
     <Layout>
-      <Search 
+      <h1>Search by Door43 organization:</h1>
+      <br/>
+      <Search
         getResults={getUsers}
         searchKey="login"
         data={data}
@@ -64,7 +66,7 @@ const Organizations = () => {
       {user ? <UserCard user={user}></UserCard> : null}
 
       <GridContainer>
-          
+
           {repos && repos.length ? repos.map((repo) => (
               <RepoCard key={repo.id} repo={repo}/>
             )) : (user ? <Alert>"No matching repositories found."</Alert> : null)}

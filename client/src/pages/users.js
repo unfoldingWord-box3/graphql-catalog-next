@@ -38,9 +38,9 @@ const Users = () => {
   const [repos, setRepos] = useState(null)
   const [user, setUser] = useState(null)
   const [getUsers, { error, data }] = useLazyQuery(
-    USERS, 
+    USERS,
     {
-      onCompleted: (data) => { 
+      onCompleted: (data) => {
         console.log("resultado", data)
         console.log(document.activeElement)
         document.dispatchEvent(new KeyboardEvent('keypdown', {'key': 'H'}));
@@ -51,10 +51,12 @@ const Users = () => {
   if(error){
     console.error( error)
   }
-  
+
   return (
     <>
-      <Search 
+      <h1>Search by Door43 username:</h1>
+      <br/>
+      <Search
         getResults={getUsers}
         searchKey="name"
         data={data}
@@ -70,7 +72,7 @@ const Users = () => {
       {user ? <UserCard user={user}></UserCard> : null}
 
       <GridContainer>
-          
+
           {repos && repos.length ? repos.map((repo) => (
               <RepoCard key={repo.id} repo={repo}/>
             )) : (user ? <Alert>"No matching repositories found."</Alert> : null)}
