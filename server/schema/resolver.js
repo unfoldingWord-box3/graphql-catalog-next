@@ -7,13 +7,28 @@ const GraphQlTypelessData = new GraphQLScalarType({
 		return result
 	}
 });
-
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  
 const resolvers = {
     TypelessData: GraphQlTypelessData,
 
 	User: {
 		repos(parent, args, {dataSources}){
 			return dataSources.catalogNext.getReposByOwner(parent.id)
+		},
+		avatarUrl(parent) {
+			return `git.door43.org/user/avatar/${parent.lowerName}/290`
+		},
+		login(parent) {
+			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
 		}
 	},
 
@@ -26,6 +41,38 @@ const resolvers = {
 		},
 		repoSubjects(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getRepoTopics(parent.id)
+		},
+		userPermissions(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getRepoAccess(parent.id)
+		},
+		htmlUrl(parent) {
+			return `git.door43.org/${parent.ownerName}/${parent.lowerName}/`
+		},
+		sshUrl(parent) {
+			return `git@git.door43.org:${parent.ownerName}/${parent.lowerName}.git`
+		},
+		cloneUrl(parent) {
+			return `git.door43.org/${parent.ownerName}/${parent.lowerName}.git`
+		},
+		avatarUrl(parent) {
+			if (parent.avatar !== null && parent.avatar !== "") {
+				return `git.door43.org/repo-avatars/${parent.avatar}`
+			}
+			return null
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
+		}
+	},
+
+	Access: {
+		user(parent, args, { dataSources }) {
+			return dataSources.catalogNext.getUserById(parent.userId)
 		}
 	},
 
@@ -35,6 +82,23 @@ const resolvers = {
 		},
 		members(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getOrgMembers(parent.id)
+		},
+		avatarUrl(parent) {
+			return `git.door43.org/user/avatar/${parent.lowerName}/290`
+		},
+		login(parent) {
+			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
+		},
+		repos(parent, args, {dataSources}){
+			return dataSources.catalogNext.getReposByOwner(parent.id)
 		}
 	},
 
@@ -44,24 +108,74 @@ const resolvers = {
 		},
 		members(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getTeamMembers(parent.id)
+		},
+		organization(parent, args , { dataSources }) {
+			return dataSources.catalogNext.getUserById(parent.orgId)
 		}
 	},
 
-	Catalog: {
+	CatalogEntry: {
 		repo(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getRepoById(parent.repoId)
 		},
 		release(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getReleaseById(parent.releaseId)
+		},
+		books(parent, args, { dataSources }) {
+			const meta = JSON.parse(parent.metadata)
+			let books = []
+			for (var i = meta.projects.length - 1; i >= 0; i--) {
+				books.push(meta.projects[i].identifier)
+			}
+			return books
+		},
+		checkingLevel(parent) {
+			const meta = JSON.parse(parent.metadata)
+			return meta.checking.checking_level
+		},
+		async tarbarUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.branchOrTag}.tar.gz`
+		},
+		async zipballUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.branchOrTag}.zip`
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		releasedAt(parent) {
+			let a = new Date(parent.releaseDateUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
 		}
 	},
 
 	Release: {
+		repo(parent, args, { dataSources }){
+			return dataSources.catalogNext.getRepoById(parent.repoId)
+		},
 		publisher(parent, args, { dataSources}) {
 			return dataSources.catalogNext.getUserById(parent.publisherId)
 		},
 		originalAuthor(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getUserById(parent.originalAuthorId)
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		async tarbarUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.tagName}.tar.gz`
+		},
+		async zipballUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.tagName}.zip`
 		}
 	},
 
@@ -69,33 +183,56 @@ const resolvers = {
 		allOrgs(_, args, { dataSources }) {
 			return dataSources.catalogNext.getOrgUsers()
 		},
-		orgsByName(_, { name }, { dataSources }) {
-			return dataSources.catalogNext.getOrgsByName()
+		allUsers(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllUsers()
+		},
+		allRepos(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllRepos()
+		},
+		allReleases(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllReleases()
+		},
+		fullCatalog(_, args, { dataSources }) {
+			return dataSources.catalogNext.getAllCatalogs()
+		},
+		org(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.getUserByName(name)
 		},
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
 		},
-		userSearch(_, { name }, { dataSources }) {
-			console.log(dataSources.catalogNext.searchUsers(name))
+		repo(_, { repoName, userName }, { dataSources }) {
+			return dataSources.catalogNext.getRepoByNameAndOwner(repoName, userName)
+		},
+		release(_, { repoName, userName, tagName}, { dataSources }) {
+			return dataSources.catalogNext.getRelease(repoName, userName, tagName)
+		},
+		catalogEntry(_, { repoName, userName, branchOrTag }, { dataSources }) {
+			return dataSources.catalogNext.getOneCatalog(repoName, userName, branchOrTag)
+		},
+		orgsSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchOrgs(name)
+		},
+		usersSearch(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.searchUsers(name)
 		},
-		repo(_, { repoName, userName }, { dataSources }) {
-			return dataSources.catalogNext.getReposByNameAndOwner(repoName, userName)
+		reposSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchRepos(name)
+		},
+		releasesSearch(_, { name }, { dataSources }) {
+			return dataSources.catalogNext.searchReleases(name)
+		},
+		catalogSearch(_, { searchWord }, { dataSources }) {
+			return dataSources.catalogNext.searchCatalogs(searchWord)
 		},
 		reposByName(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getReposByName(name)
 		},
-		catalog(_, { repoName, userName, branchOrTag }, { dataSources }) {
-			return dataSources.catalogNext.getOneCatalog(repoName, userName, branchOrTag)
-		},
-		catalogsByRepo(_, { repoName }, { dataSources }) {
+		catalogByRepo(_, { repoName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByRepo(repoName)
 		},
-		catalogsByOwner(_, { userName }, { dataSources }) {
+		catalogByOwner(_, { userName }, { dataSources }) {
 			return dataSources.catalogNext.getCatalogsByOwner(userName)
-		},
-		catalogSearch(_, { searchWord }, { dataSources }) {
-			return dataSources.catalogNext.searchCatalogs(searchWord)
 		}
 
 	}
