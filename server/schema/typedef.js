@@ -86,6 +86,7 @@ let typeDefs = gql`
 	   updatedAt: String
 	   teams: [Team]
 	   members: [User]
+	   repos: [Repo]
 	 }
 
 	 type Team {

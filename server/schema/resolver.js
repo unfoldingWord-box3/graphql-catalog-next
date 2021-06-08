@@ -100,6 +100,9 @@ const resolvers = {
 		updatedAt(parent) {
 			let a = new Date(parent.updatedUnix * 1000)
 			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
+		},
+		repos(parent, args, {dataSources}){
+			return dataSources.catalogNext.getReposByOwner(parent.id)
 		}
 	},
 
@@ -197,7 +200,7 @@ const resolvers = {
 			return dataSources.catalogNext.getAllCatalogs()
 		},
 		org(_, { name }, { dataSources }) {
-			return dataSources.catalogNext.getOrgByName()
+			return dataSources.catalogNext.getUserByName(name)
 		},
 		user(_, { name }, { dataSources }) {
 			return dataSources.catalogNext.getUserByName(name)
