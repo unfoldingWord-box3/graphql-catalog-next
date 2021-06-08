@@ -22,6 +22,9 @@ const resolvers = {
 		},
 		avatarUrl(parent) {
 			return `git.door43.org/user/avatar/${parent.lowerName}/290`
+		},
+		login(parent) {
+			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
 		}
 	},
 
@@ -78,6 +81,9 @@ const resolvers = {
 		},
 		avatarUrl(parent) {
 			return `git.door43.org/user/avatar/${parent.lowerName}/290`
+		},
+		login(parent) {
+			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
 		}
 	},
 

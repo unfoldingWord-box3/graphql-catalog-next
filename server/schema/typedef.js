@@ -10,9 +10,15 @@ let typeDefs = gql`
 	   name: String
 	 }
 
+	type Login {
+		loginType: Int
+		loginSource: Int
+		loginName: String
+	}
+
 	type User {
 	   id: ID!
-	   login: String!
+	   login: Login!
 	   name: String
 	   fullName: String!
 	   email: String!
@@ -68,7 +74,7 @@ let typeDefs = gql`
 
 	type Organization {
 	   id: ID!
-	   login: String!
+	   login: Login!
 	   name: String!
 	   website: String
 	   location: String
