@@ -8,8 +8,8 @@ const RepoCard = ({ repo }) => {
   return (
     <CardContainer href={htmlUrl} target="_blank">
       <CardContent>
-        {avatarUrl && <CardImageContainer>
-          <CardImage src={avatarUrl ? avarUrl : `https://ui-avatars.com/api/?name=${name}`} alt={name} />
+        { <CardImageContainer>
+          <CardImage src={avatarUrl ? `https://${avatarUrl}` : `https://ui-avatars.com/api/?name=${name}`} alt={name} />
         </CardImageContainer> }
         <CardBody>
           <CardTitle>{name || ''}</CardTitle>
@@ -58,7 +58,7 @@ const CardContainer = styled.a({
 
 const CardContent = styled.div({
   display: 'grid',
-  gridTemplateColumns: '1fr 2fr',
+
 });
 
 const CardTitle = styled.h3({
@@ -73,6 +73,7 @@ const CardTitle = styled.h3({
 
 const CardImageContainer = styled.div({
   position: 'relative',
+  paddingTop:18,
   '::after': {
     content: '""',
     position: 'absolute',
@@ -85,27 +86,22 @@ const CardImageContainer = styled.div({
 
 const CardImage = styled.img({
   width: '100%',
-  height: '100%',
 });
 
 const CardBody = styled.div({
   padding: 18,
-  flex: 1,
-  display: 'flex',
+
+
   color: colors.textSecondary,
-  flexDirection: 'column',
-  justifyContent: 'start',
+
 });
 
 const CardFooter = styled.div({
-  display: 'flex',
-  flexDirection: 'Row',
+
 });
 
 const AuthorAndTrack = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
+
 });
 
 const AuthorName = styled.div({
