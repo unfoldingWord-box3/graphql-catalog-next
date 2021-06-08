@@ -1,9 +1,5 @@
 const { GraphQLScalarType } = require('graphql');
 
-dummyOrgs = [
-	{"id": 1, "name": "BSC"},
-	{"id": 2, "name": "UnfoldingWord"}
-]
 const GraphQlTypelessData = new GraphQLScalarType({
 	name: "TypelessData",
 	serialize(value) {
