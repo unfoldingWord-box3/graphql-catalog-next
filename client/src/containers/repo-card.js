@@ -6,7 +6,7 @@ const RepoCard = ({ repo }) => {
   const { name, description, avatarUrl, htmlUrl } = repo;
 
   return (
-    <CardContainer href={htmlUrl} target="_blank">
+    <CardContainer href={`https://${htmlUrl}`} target="_blank">
       <CardContent>
         {avatarUrl && <CardImageContainer>
           <CardImage src={avatarUrl} alt={name} />
