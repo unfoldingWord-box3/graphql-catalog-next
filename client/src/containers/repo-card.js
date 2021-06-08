@@ -1,31 +1,21 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { colors, mq } from '../styles';
-import { humanReadableTimeFromSeconds } from '../utils/helpers';
 
-/**
- * Track Card component renders basic info in a card format
- * for each track populating the tracks grid homepage.
- */
-const TrackCard = ({ track }) => {
-  const { title, thumbnail, author, length, modulesCount } = track;
+const RepoCard = ({ repo }) => {
+  const { name, description, avatarUrl, htmlUrl } = repo;
 
   return (
-    <CardContainer>
+    <CardContainer href={`https://${htmlUrl}`} target="_blank">
       <CardContent>
-        <CardImageContainer>
-          <CardImage src={thumbnail} alt={title} />
-        </CardImageContainer>
+        {avatarUrl && <CardImageContainer>
+          <CardImage src={avatarUrl} alt={name} />
+        </CardImageContainer> }
         <CardBody>
-          <CardTitle>{title || ''}</CardTitle>
+          <CardTitle>{name || ''}</CardTitle>
           <CardFooter>
-            <AuthorImage src={author.photo} />
             <AuthorAndTrack>
-              <AuthorName>{author.name}</AuthorName>
-              <TrackLength>
-                {modulesCount} modules -{' '}
-                {humanReadableTimeFromSeconds(length)}
-              </TrackLength>
+              <AuthorName>{description}</AuthorName>
             </AuthorAndTrack>
           </CardFooter>
         </CardBody>
@@ -34,19 +24,18 @@ const TrackCard = ({ track }) => {
   );
 };
 
-export default TrackCard;
+export default RepoCard;
 
 /** Track Card styled components */
-const CardContainer = styled.div({
+const CardContainer = styled.a({
   borderRadius: 6,
+  textDecoration: 'none',
   color: colors.text,
   backgroundSize: 'cover',
   backgroundColor: 'white',
   boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.15)',
   backgroundPosition: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
+  padding:10,
   [mq[0]]: {
     width: '90%',
   },
@@ -56,34 +45,33 @@ const CardContainer = styled.div({
   [mq[2]]: {
     width: '31%',
   },
-  height: 380,
+
   margin: 10,
   overflow: 'hidden',
   position: 'relative',
   ':hover': {
-    backgroundColor: colors.pink.lightest,
+    backgroundColor: colors.blue.lightest,
   },
   cursor: 'pointer',
+  zIndex: 1,
 });
 
 const CardContent = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-around',
-  height: '100%',
+  display: 'grid',
+  gridTemplateColumns: '1fr 2fr',
 });
 
 const CardTitle = styled.h3({
-  textAlign: 'center',
+  textAlign: 'left',
   fontSize: '1.4em',
   lineHeight: '1em',
+  marginBottom:15,
   fontWeight: 700,
   color: colors.text,
-  flex: 1,
+  flex: 0,
 });
 
 const CardImageContainer = styled.div({
-  height: 220,
   position: 'relative',
   '::after': {
     content: '""',
@@ -92,15 +80,12 @@ const CardImageContainer = styled.div({
     bottom: 0,
     left: 0,
     right: 0,
-    background: 'rgba(250,0,150,0.20)',
   },
 });
 
 const CardImage = styled.img({
-  objectFit: 'cover',
   width: '100%',
   height: '100%',
-  filter: 'grayscale(60%)',
 });
 
 const CardBody = styled.div({
@@ -109,20 +94,12 @@ const CardBody = styled.div({
   display: 'flex',
   color: colors.textSecondary,
   flexDirection: 'column',
-  justifyContent: 'space-around',
+  justifyContent: 'start',
 });
 
 const CardFooter = styled.div({
   display: 'flex',
   flexDirection: 'Row',
-});
-
-const AuthorImage = styled.img({
-  height: 30,
-  width: 30,
-  marginRight: 8,
-  borderRadius: '50%',
-  objectFit: 'cover',
 });
 
 const AuthorAndTrack = styled.div({
@@ -136,6 +113,3 @@ const AuthorName = styled.div({
   fontSize: '1.1em',
 });
 
-const TrackLength = styled.div({
-  fontSize: '0.8em',
-});

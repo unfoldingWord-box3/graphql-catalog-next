@@ -10,7 +10,7 @@ import { widths, unit } from '../styles';
 const Layout = ({ fullWidth, children, grid }) => {
   return (
     <>
-      <Header />
+      <Header/>
       <PageContainer fullWidth={fullWidth} grid={grid}>
         {children}
       </PageContainer>

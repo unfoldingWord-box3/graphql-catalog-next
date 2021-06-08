@@ -5,7 +5,7 @@ let typeDefs = gql`
 	   language: String
 	   isPrimary: Boolean
 	 }
-	 
+
 	 type Subjects {
 	   name: String
 	 }

@@ -21,6 +21,12 @@ const Header = ({ children }) => {
             </HomeButton>
           </HomeLink>
         </HomeButtonContainer>
+        <LinksContainer>
+          <NavLink to="/users">Users</NavLink>
+          <NavLink to="/organizations">Organizations</NavLink>
+          <NavLink to="/repositories">Repositories</NavLink>
+          <NavLink to="/releases">Releases</NavLink>
+        </LinksContainer>
         {children}
       </Container>
     </HeaderBar>
@@ -35,7 +41,7 @@ const HeaderBar = styled.div({
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
-  borderBottom: `solid 1px ${colors.pink.light}`,
+  borderBottom: `solid 1px ${colors.blue.light}`,
   boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.15)',
   padding: '5px 30px',
   minHeight: 80,
@@ -44,6 +50,8 @@ const HeaderBar = styled.div({
 
 const Container = styled.div({
   width: `${widths.regularPageWidth}px`,
+  display: "grid",
+  gridTemplateColumns: "auto 1fr",
 });
 
 const HomeLink = styled(Link)({
@@ -61,17 +69,25 @@ const HomeButton = styled.div({
   color: colors.accent,
   alignItems: 'center',
   ':hover': {
-    color: colors.pink.dark,
+    color: colors.blue.base,
   },
 });
 
-const LogoContainer = styled.div({ display: 'flex', alignSelf: 'center' });
+const LinksContainer = styled.div({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+})
 
-const Logo = styled.img({
-  height: 60,
-  width: 60,
-  marginRight: 8,
-});
+const NavLink = styled(Link)({
+  textDecoration: 'none',
+  color: colors.blue.dark,
+  marginLeft:20,
+  fontWeight: 400,
+  ':hover': {
+    color: colors.blue.base,
+  },
+})
 
 const Title = styled.div({
   display: 'flex',
