@@ -116,10 +116,16 @@ let typeDefs = gql`
 	 type Release {
 	 	id: ID!
 	 	repo: Repo
-	 	title: String
-	 	target: String
-	 	note: String
 	 	publisher: User
+	 	tagName: String
+	 	target: String
+	 	title: String
+	 	note: String
+	 	numCommits: Int
+	 	isDraft: Boolean
+	 	isPrerelease: Boolean
+	 	isTag: Boolean
+	 	createdAt: String
 	 	originalAuthor: User
 	 }
 

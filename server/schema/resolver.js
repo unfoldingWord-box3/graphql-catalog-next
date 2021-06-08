@@ -126,6 +126,10 @@ const resolvers = {
 		},
 		originalAuthor(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getUserById(parent.originalAuthorId)
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
 		}
 	},
 
