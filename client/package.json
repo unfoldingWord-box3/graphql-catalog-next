@@ -9,6 +9,7 @@
     "@emotion/core": "^10.0.34",
     "@emotion/styled": "^10.0.27",
     "@reach/router": "^1.3.4",
+    "formik": "^2.2.9",
     "graphql": "^15.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
