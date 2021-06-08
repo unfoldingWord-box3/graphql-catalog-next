@@ -10,9 +10,15 @@ let typeDefs = gql`
 	   name: String
 	 }
 
+	type Login {
+		loginType: Int
+		loginSource: Int
+		loginName: String
+	}
+
 	type User {
 	   id: ID!
-	   login: String!
+	   login: Login!
 	   name: String
 	   fullName: String!
 	   email: String!
@@ -20,63 +26,67 @@ let typeDefs = gql`
 	   language: String
 	   isAdmin: Boolean
 	   lastLogin: String
-	   created: String
+	   createdAt: String
+	   updatedAt: String
 	   repos: [Repo]
 	 }
+
+	type Access {
+		user: User
+		mode: Int
+	}
 
     type Repo {
 	   id: ID!
 	   owner: User!
 	   name: String!
-	   fullName: String!
 	   description: String!
 	   repoLanguages: [ComputerLanguage]
 	   repoSubjects: [Subjects]
-	   empty: Boolean
-	   private: Boolean
-	   fork: Boolean
-	   template: Boolean
-	   mirror: Boolean
-	   size: Int
+	   userPermissions: [Access]
 	   htmlUrl: String
 	   sshUrl: String
 	   cloneUrl: String
 	   originalUrl: String
 	   website: String
-	   starsCount: Int
-	   forksCount: Int
-	   watchersCount: Int
-	   openIssues_count: Int
-	   openPrCounter: Int
-	   releaseCounter: Int
 	   defaultBranch: String
-	   archived: Boolean
+	   isPrivate: Boolean
+	   isMirror: Boolean
+	   isFork: Boolean
+	   isEmpty: Boolean
+	   isArchieved: Boolean
+	   isTemplate: Boolean
+	   numStars: Int
+	   numForks: Int
+	   numWatches: Int
+	   numPulls: Int
+	   numClosedPulls: Int
+	   numIssues: Int
+	   numClosedIssues: Int
+	   numMilestones: Int
+	   numClosedMilestones: Int
+	   numProjects: Int
+	   numClosedProjects: Int
 	   createdAt: String
 	   updatedAt: String
-	   #permissions: Permissions
-	   hasIssues: Boolean,
 	   avatarUrl: String
-	   language: String
-	   subject: String
-	   books: String
-	   title: String
-	   checkingLevel: String
 	 }
 
 	type Organization {
 	   id: ID!
-	   login: String!
+	   login: Login!
 	   name: String!
 	   website: String
 	   location: String
-	   email: String
 	   avatarUrl: String
 	   language: String
 	   isAdmin: Boolean
 	   lastLogin: String
-	   created: String
+	   createdAt: String
+	   updatedAt: String
 	   teams: [Team]
 	   members: [User]
+	   repos: [Repo]
 	 }
 
 	 type Team {
@@ -92,35 +102,64 @@ let typeDefs = gql`
 
 	 scalar TypelessData
 
-	 type Catalog {
+	 type CatalogEntry {
+	 	id: ID!
 	 	metadataVersion: String
 	 	metadata: TypelessData!
-	 	repo: Repo!
+	 	repo: Repo
 	 	release: Release
 	 	stage: Int
 	 	branchOrTag: String!
 	 	releaseDateUnix: String
+	 	books: [String]
+	 	checkingLevel: String
+	 	tarbarUrl: String
+		zipballUrl: String
+		createdAt: String
+		updatedAt: String
+		releasedAt: String
 	 }
 
 	 type Release {
-	 	title: String
-	 	target: String
-	 	note: String
+	 	id: ID!
+	 	repo: Repo
 	 	publisher: User
+	 	tagName: String
+	 	target: String
+	 	title: String
+	 	note: String
+	 	numCommits: Int
+	 	isDraft: Boolean
+	 	isPrerelease: Boolean
+	 	isTag: Boolean
+	 	createdAt: String
 	 	originalAuthor: User
+	 	tarbarUrl: String
+		zipballUrl: String
 	 }
 
 	type Query {
-		allOrgs: [Organization]
-		orgsByName: [Organization]
+		org(name: String): Organization
 		user(name: String): User
-		userSearch(name: String): [User]
 		repo(repoName: String, userName: String): Repo
+		release(repoName: String, userName: String, tagName: String): Release
+		catalogEntry(repoName: String, userName: String, branchOrTag: String): CatalogEntry
+
+		allOrgs: [Organization]
+		allUsers: [User]
+		allRepos: [Repo]
+		allReleases: [Release]
+		fullCatalog: [CatalogEntry]
+
+		orgsSearch(name: String): [Organization]
+		usersSearch(name: String): [User]
+		reposSearch(name: String): [Repo]
+		releasesSearch(name: String): [Release]
+		catalogSearch(searchWord: String): [CatalogEntry]
+
 		reposByName(name: String): [Repo]
-		catalog(repoName: String, userName: String, branchOrTag: String): Catalog
-		catalogsByRepo(repoName: String): [Catalog]
-		catalogsByOwner(userName: String): [Catalog]
-		catalogSearch(searchWord: String): [Catalog]
+		catalogByRepo(repoName: String): [CatalogEntry]
+		catalogByOwner(userName: String): [CatalogEntry]
 	}
 `;
 
