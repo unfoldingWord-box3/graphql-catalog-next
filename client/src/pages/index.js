@@ -5,6 +5,7 @@ import { Layout } from '../components';
 import Users from './users';
 import Organizations from './organizations';
 import Releases from './releases';
+import Repositories from './repositories';
 
 export default function Pages() {
   return (
@@ -13,6 +14,7 @@ export default function Pages() {
         <Users path="/users" />
         <Organizations path="/organizations" />
         <Releases path="/releases" />
+        <Repositories path="/repositories" />
       </Router>
     </Layout>
   );

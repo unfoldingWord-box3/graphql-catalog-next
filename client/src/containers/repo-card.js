@@ -6,7 +6,7 @@ const RepoCard = ({ repo }) => {
   const { name, description, avatarUrl, htmlUrl } = repo;
 
   return (
-    <CardContainer href={htmlUrl} target="_blank">
+    <CardContainer href={`https://${htmlUrl}`} target="_blank">
       <CardContent>
         { <CardImageContainer>
           <CardImage src={avatarUrl ? `https://${avatarUrl}` : `https://ui-avatars.com/api/?name=${name}`} alt={name} />
