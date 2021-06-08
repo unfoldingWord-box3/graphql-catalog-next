@@ -39,7 +39,6 @@ let typeDefs = gql`
 	   id: ID!
 	   owner: User!
 	   name: String!
-	   fullName: String!
 	   description: String!
 	   repoLanguages: [ComputerLanguage]
 	   repoSubjects: [Subjects]

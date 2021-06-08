@@ -227,7 +227,7 @@ class CatalogNext extends SQLDataSource {
     .from('door43_metadata')
     .join('repository', 'door43_metadata.repo_id', '=', 'repository.id')
     .join('user', 'repository.owner_id', '=', 'user.id')
-    .where({'user.lower_name': userName.toLowerCase, 
+    .where({'user.lower_name': userName.toLowerCase(), 
             'repository.lower_name': repoName.toLowerCase(),
             'door43_metadata.branch_or_tag': branchOrTag.toLowerCase()})
     .first()
