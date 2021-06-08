@@ -78,7 +78,6 @@ let typeDefs = gql`
 	   name: String!
 	   website: String
 	   location: String
-	   email: String
 	   avatarUrl: String
 	   language: String
 	   isAdmin: Boolean
