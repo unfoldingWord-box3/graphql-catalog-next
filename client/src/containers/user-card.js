@@ -13,8 +13,8 @@ const UserCard = ({ user }) => {
             </UserAvatarContainer>
             <UserInfo>
                 <UserFullName>{user.fullName}</UserFullName>
-                <UserName>{user.login}</UserName>
-                <UserEmail href={`mailto:${user.login}@dummyemail.com`}>{user.login}@dummyemail.com</UserEmail>               
+                <UserName>{user.name}</UserName>
+                <UserEmail href={`mailto:${user.email}`}>{user.email}</UserEmail>               
             </UserInfo>
         </CardContainer>
     )
@@ -34,10 +34,13 @@ const CardContainer = styled.div({
 })
 
 const UserInfo = styled.div({
-    marginLeft: 15, 
+    marginLeft: 15,
+    width:'100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
+    alignItems: 'start',
+    alignContent: 'space-between',
 })
 
 const UserAvatarContainer = styled.div({
@@ -48,26 +51,20 @@ const UserAvatar = styled.img({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
+    maxHeight: 150,
     height: '100%',
 })
 
 const UserEmail = styled.a({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    height: '100%',
     color: colors.grey.dark
 })
 
 const UserName = styled.div({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    height: '100%',
+
 })
 
 const UserFullName = styled.div({
     fontWeight: 'bold',
-    fontSize: '1.2rem',
+    fontSize: '1.8rem',
     color: colors.blue.dark,
 })

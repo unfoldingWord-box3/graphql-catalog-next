@@ -23,6 +23,7 @@ const USERS = gql`
       id
       fullName
       name
+      email
       repos {
         id
         name
