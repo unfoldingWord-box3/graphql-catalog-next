@@ -113,6 +113,9 @@ let typeDefs = gql`
 	 	checkingLevel: String
 	 	tarbarUrl: String
 		zipballUrl: String
+		createdAt: String
+		updatedAt: String
+		releasedAt: String
 	 }
 
 	 type Release {

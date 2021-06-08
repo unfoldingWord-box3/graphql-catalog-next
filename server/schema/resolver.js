@@ -122,6 +122,18 @@ const resolvers = {
 		async zipballUrl(parent, args, { dataSources }) {
 			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
 			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.branchOrTag}.zip`
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		releasedAt(parent) {
+			let a = new Date(parent.releaseDateUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
 		}
 	},
 
