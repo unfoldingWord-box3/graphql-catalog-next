@@ -9,7 +9,7 @@ const RepoCard = ({ repo }) => {
     <CardContainer href={htmlUrl} target="_blank">
       <CardContent>
         {avatarUrl && <CardImageContainer>
-          <CardImage src={avatarUrl} alt={name} />
+          <CardImage src={avatarUrl ? avarUrl : `https://ui-avatars.com/api/?name=${name}`} alt={name} />
         </CardImageContainer> }
         <CardBody>
           <CardTitle>{name || ''}</CardTitle>
