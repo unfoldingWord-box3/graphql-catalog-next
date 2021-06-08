@@ -93,6 +93,9 @@ const resolvers = {
 		},
 		members(parent, args, { dataSources }) {
 			return dataSources.catalogNext.getTeamMembers(parent.id)
+		},
+		organization(parent, args , { dataSources }) {
+			return dataSources.catalogNext.getUserById(parent.orgId)
 		}
 	},
 
