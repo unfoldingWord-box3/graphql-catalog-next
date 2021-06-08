@@ -17,24 +17,16 @@ const GridContainer = styled.div(() => ({
 
 const USERS = gql`
   query getUsers($key: String!) {
-    userSearch(name: $key) {
+    usersSearch(name: $key) {
       id
-      fullName
       name
-      repos {
-        id
-        name
-        description
-        avatarUrl
-        htmlUrl
-      }
     }
   }
 `;
 
 const CATALOGS = gql`
   query catalogsByOwner($key: String!) {
-    catalogsByOwner(userName: $key) {
+    catalogByOwner(userName: $key) {
       stage
       branchOrTag
       releaseDateUnix
@@ -68,19 +60,10 @@ const CATALOGS = gql`
 `;
 
 const Releases = () => {
-  const [getUsers, { error, data }] = useLazyQuery(
-    USERS,
-    {
-      onCompleted: (data) => {
-        console.log("resultado", data)
-        console.log(document.activeElement)
-        document.dispatchEvent(new KeyboardEvent('keypdown', {'key': 'H'}));
-      }
-    }
-  )
+  const [getUsers, { error, data }] = useLazyQuery(USERS)
   const [getUserCatalogs, { error: catalogError, data: catalogData }] = useLazyQuery(CATALOGS)
 
-  const releases = catalogData && catalogData?.catalogsByOwner ? catalogData.catalogsByOwner.filter(({ release }) => release) : []
+  const releases = catalogData && catalogData?.catalogByOwner ? catalogData.catalogByOwner.filter(({ release }) => release) : []
 
   return (
     <>
