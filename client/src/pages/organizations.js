@@ -8,8 +8,6 @@ import { Alert } from '../components/alert';
 import TeamsCard from '../containers/teams-card'
 import MembersCard from '../containers/members-card'
 
-
-/** TRACKS query to retrieve all tracks */
 const ORGS = gql`
   query getOrgs($key: String!) {
     orgsSearch(name: $key) {
