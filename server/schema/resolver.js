@@ -114,6 +114,14 @@ const resolvers = {
 		checkingLevel(parent) {
 			const meta = JSON.parse(parent.metadata)
 			return meta.checking.checking_level
+		},
+		async tarbarUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.branchOrTag}.tar.gz`
+		},
+		async zipballUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.branchOrTag}.zip`
 		}
 	},
 
@@ -130,6 +138,14 @@ const resolvers = {
 		createdAt(parent) {
 			let a = new Date(parent.createdUnix * 1000)
 			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		async tarbarUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.tagName}.tar.gz`
+		},
+		async zipballUrl(parent, args, { dataSources }) {
+			const repo = await dataSources.catalogNext.getRepoById(parent.repoId)
+			return `https://git.door43.org/${repo.ownerName}/${repo.lowerName}/archive/${parent.tagName}.zip`
 		}
 	},
 

@@ -111,6 +111,8 @@ let typeDefs = gql`
 	 	releaseDateUnix: String
 	 	books: [String]
 	 	checkingLevel: String
+	 	tarbarUrl: String
+		zipballUrl: String
 	 }
 
 	 type Release {
@@ -127,6 +129,8 @@ let typeDefs = gql`
 	 	isTag: Boolean
 	 	createdAt: String
 	 	originalAuthor: User
+	 	tarbarUrl: String
+		zipballUrl: String
 	 }
 
 	type Query {
