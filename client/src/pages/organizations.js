@@ -58,6 +58,8 @@ const Organizations = () => {
 
   return (
     <>
+      <h1>Search by Door43 organization name:</h1>
+      <br/>
       <Search
         getResults={getOrgs}
         searchKey="name"
