@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Layout } from '../components';
 import Search from './search';
 import { useLazyQuery, gql } from '@apollo/client';
 import RepoCard from '../containers/repo-card';
@@ -16,13 +15,13 @@ const ORGS = gql`
     orgsSearch(name: $key) {
       id
       name
-			avatarUrl
-  		members {
+      avatarUrl
+      members {
         avatarUrl
         name
         id
       }
-  		teams{
+      teams{
         id
         name
         teamRepos{
@@ -33,7 +32,7 @@ const ORGS = gql`
           avatarUrl
           name
           id
-      	}
+        }
       }
       repos{
         id
@@ -42,7 +41,7 @@ const ORGS = gql`
         avatarUrl
         htmlUrl
       }
-    } 
+    }
   }
 `;
 
@@ -50,7 +49,7 @@ const Organizations = () => {
   const [repos, setRepos] = useState(null)
   const [org, setOrg] = useState(null)
   const [getOrgs, { error, data }] = useLazyQuery(ORGS, {
-    onCompleted: (data) => { 
+    onCompleted: (data) => {
       console.log("result", data)
     }
   })
@@ -61,7 +60,7 @@ const Organizations = () => {
 
   return (
     <>
-      <Search 
+      <Search
         getResults={getOrgs}
         searchKey="name"
         data={data}
@@ -74,12 +73,12 @@ const Organizations = () => {
       {error ? <Alert>{error.message}</Alert> : null}
 
       <MainContainer>
-        
+
         <OrgContainer>
-          
+
           {org ? <UserCard user={org}></UserCard> : null}
           <GridContainer>
-            
+
             {repos && repos.length ? repos.map((repo) => (
                 <RepoCard key={repo.id} repo={repo}/>
               )) : (org ? <Alert>"No matching repositories found."</Alert> : null)}
@@ -108,7 +107,7 @@ const OrgDetailsContainer = styled.div({
 })
 
 const OrgContainer = styled.div({
-  
+
 })
 
 const GridContainer = styled.div(() => ({
