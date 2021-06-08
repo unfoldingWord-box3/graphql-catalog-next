@@ -25,6 +25,14 @@ const resolvers = {
 		},
 		login(parent) {
 			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
 		}
 	},
 
@@ -84,6 +92,14 @@ const resolvers = {
 		},
 		login(parent) {
 			return {"loginType": parent.loginType, "loginSource": parent.loginSource, "loginName": parent.loginName}
+		},
+		createdAt(parent) {
+			let a = new Date(parent.createdUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 
+		},
+		updatedAt(parent) {
+			let a = new Date(parent.updatedUnix * 1000)
+			return `${a.getFullYear()} ${months[a.getMonth()]} ${a.getDate()}, ${a.getHours()}:${a.getMinutes()}:${a.getSeconds()} ` 	
 		}
 	},
 

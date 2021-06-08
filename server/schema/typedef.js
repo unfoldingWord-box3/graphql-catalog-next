@@ -26,7 +26,8 @@ let typeDefs = gql`
 	   language: String
 	   isAdmin: Boolean
 	   lastLogin: String
-	   created: String
+	   createdAt: String
+	   updatedAt: String
 	   repos: [Repo]
 	 }
 
@@ -82,7 +83,8 @@ let typeDefs = gql`
 	   language: String
 	   isAdmin: Boolean
 	   lastLogin: String
-	   created: String
+	   createdAt: String
+	   updatedAt: String
 	   teams: [Team]
 	   members: [User]
 	 }
